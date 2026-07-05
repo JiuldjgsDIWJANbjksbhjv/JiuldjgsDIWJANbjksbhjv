@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MAGANTi | Haute Horlogerie - Fine Luxury Watches</title>
+  <link rel="icon" type="image/jpeg" href="header.png" />
+  <title>MAGANTi</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
@@ -13,12 +14,13 @@
   <header>
     <div class="container nav-container">
       <a href="#/home" class="logo">
-        <span class="logo-text">MAGANT<span>i</span></span>
+        <img src="icon.jpg" alt="MAGANTi" class="logo-icon" />
       </a>
       <nav>
         <ul>
           <li><a href="#/home">Home</a></li>
           <li><a href="#/store">Showroom</a></li>
+          <li><a href="#/store">Contact Us</a></li>
         </ul>
       </nav>
       <div class="header-actions">
@@ -38,6 +40,7 @@
     <ul>
       <li><a href="#/home">Home</a></li>
       <li><a href="#/store">Showroom</a></li>
+      <li><a href="#/store">Contact Us</a></li>
     </ul>
   </div>
 
@@ -85,7 +88,7 @@
     <div class="section-header">
       <p class="section-subtitle">MAGANTi Store</p>
       <h2 class="section-title">The Showroom</h2>
-      <p style="color:var(--color-text-secondary);max-width:600px;margin:0 auto;">Browse our curated portfolio of rare timepieces and exclusive series.</p>
+      <p style="color:var(--color-text-secondary);max-width:600px;margin:0 auto;">Browse our curated portfolio of exclusive series of watches.</p>
     </div>
 
 
@@ -114,6 +117,7 @@
             <div class="filter-group">
               <h4 class="filter-title">Brands</h4>
               <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="ROLEX" /><span class="custom-checkbox"></span>Rolex</label>
+              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="TISSOT" /><span class="custom-checkbox"></span>Tissot</label>
               <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="PATEK PHILIPPE" /><span class="custom-checkbox"></span>Patek Philippe</label>
               <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="AUDEMARS PIGUET" /><span class="custom-checkbox"></span>Audemars Piguet</label>
               <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="RICHARD MILLE" /><span class="custom-checkbox"></span>Richard Mille</label>
@@ -178,9 +182,9 @@
       <div id="cart-items-list" class="cart-items-list"></div>
       <div class="cart-footer">
         <div class="cart-summary-row"><span>Acquisition Subtotal</span><span id="cart-subtotal-val">0 MAD</span></div>
-        <div class="cart-summary-row"><span>Secured Shipping</span><span>Free</span></div>
+        <div class="cart-summary-row"><span>Shipping</span><span>Free</span></div>
         <div class="cart-summary-row total"><span>Est. Value Total</span><span id="cart-total-val">0 MAD</span></div>
-        <button class="cart-checkout-btn">Proceed to Acquisition Form</button>
+        <button class="cart-checkout-btn">Confirm Order Via WhatsApp</button>
       </div>
     </div>
   </div>
@@ -192,11 +196,9 @@
       <h2 class="modal-title">Secure Acquisition</h2>
       <p id="modal-subtitle" class="modal-subtitle">Submit your details to align with a MAGANTi representative.</p>
       <form id="checkout-form">
-        <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" required /></div>
-        <div class="form-group"><label class="form-label">Secured Email Address</label><input type="email" class="form-input" required /></div>
-        <div class="form-group"><label class="form-label">Direct Line</label><input type="tel" class="form-input" /></div>
-        <div class="form-group"><label class="form-label">Special Handling / Directives</label><textarea class="form-input" rows="3"></textarea></div>
-        <button type="submit" class="submit-btn">SUBMIT REQUEST</button>
+        <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="form-name" class="form-input" placeholder="Your full name" required /></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea id="form-message" class="form-input" rows="3" placeholder="Your question or request..."></textarea></div>
+        <button type="submit" class="submit-btn">SEND</button>
       </form>
     </div>
   </div>
@@ -238,11 +240,14 @@
           <h4>MAGANTi</h4>
           <p>MAGANTi is a global purveyor of haute horlogerie, uniting historical luxury manufacture with the digital collectors' era.</p>
           <div class="social-links">
-            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/maganti.n1?igsh=MXBsYXRtNHN4d21hZg==" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/212664433923" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
           </div>
+          <p style="margin-top:12px; font-size:13px; color:var(--color-text-secondary);">
+            <i class="fas fa-phone" style="color:var(--color-gold); margin-right:6px;"></i>+212 664 433 923
+          </p>
         </div>
+        <!--
         <div class="footer-col">
           <h4>Showroom</h4>
           <ul>
@@ -262,14 +267,17 @@
           </ul>
         </div>
       </div>
+      -->
       <div class="footer-bottom">
-        <p>© 2026 MAGANTi. All rights reserved. Registered trademark of Haute Horlogerie SA.</p>
+        <p>© 2026 MAGANTi. All rights reserved.</p>
+        <!--
         <div class="footer-terms">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
           <a href="#">Secured Protocols</a>
         </div>
       </div>
+      -->
     </div>
   </footer>
 
