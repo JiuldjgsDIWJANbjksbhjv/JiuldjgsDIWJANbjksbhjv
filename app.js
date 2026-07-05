@@ -91,7 +91,7 @@ async function loadWatchesFromSupabase() {
 async function loadAgentLocation() {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/Localisation?id=eq.1&select=localisation`,
+      `${SUPABASE_URL}/rest/v1/localisation?id=eq.1&select=localisation`,
       {
         headers: {
           "apikey":        SUPABASE_ANON_KEY,
