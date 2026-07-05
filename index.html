@@ -20,7 +20,7 @@
         <ul>
           <li><a href="#/home">Home</a></li>
           <li><a href="#/store">Showroom</a></li>
-          <li><a href="#/store">Contact Us</a></li>
+          <li><a href="#/contact">Contact Us</a></li>
         </ul>
       </nav>
       <div class="header-actions">
@@ -40,57 +40,170 @@
     <ul>
       <li><a href="#/home">Home</a></li>
       <li><a href="#/store">Showroom</a></li>
-      <li><a href="#/store">Contact Us</a></li>
+      <li><a href="#/contact">Contact Us</a></li>
     </ul>
   </div>
 
   <!-- HOME SECTION -->
-<section id="home-section" class="page-section active">
-  <div class="hero">
-    <!-- 🎬 NOUVEAU : Vidéo de fond -->
-    <video class="hero-bg-video" autoplay muted loop playsinline poster="images/poster.jpg">
-      <source src="https://kfflzhlpgnsozvufsmtt.supabase.co/storage/v1/object/sign/background/background.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZjJkMTFkZS02MWZkLTRlOGUtOGQ5OS1jOTE0YzljYjIzMWQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYWNrZ3JvdW5kL2JhY2tncm91bmQubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4MzI4NjQ1OCwiZXhwIjoyMDk4NjQ2NDU4fQ.EQQyI9mxvAGkgpeBBTQoEbptiDC7DF1zZt_46pHHGY4" type="video/mp4">
-    </video>
-    
-    <!-- Canvas pour les engrenages animés (par-dessus la vidéo) -->
-    <canvas id="hero-canvas" class="hero-bg-canvas"></canvas>
-    
-    <!-- Overlay sombre -->
-    <div class="hero-bg-overlay"></div>
-    
-    <!-- Contenu centré -->
-    <div class="hero-content">
-      <p class="hero-subtitle">HIGH QUALITY & ELEGANT</p>
-      <h1 class="hero-title">Timeless Elegance.<br><span>Refined Precision.</span></h1>
-      <p class="hero-desc">Order via : our WhatsApp - our Website or by Phone Call.<br>Just have a question ? Marhbaaa, لي ما شرا يتنزه</p>
-      <a href="#/store" class="hero-btn">Explore Showroom</a>
+  <section id="home-section" class="page-section active">
+
+    <!-- HERO -->
+    <div class="hero">
+      <video class="hero-bg-video" autoplay muted loop playsinline poster="images/poster.jpg">
+        <source src="https://kfflzhlpgnsozvufsmtt.supabase.co/storage/v1/object/sign/background/background.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZjJkMTFkZS02MWZkLTRlOGUtOGQ5OS1jOTE0YzljYjIzMWQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYWNrZ3JvdW5kL2JhY2tncm91bmQubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4MzI4NjQ1OCwiZXhwIjoyMDk4NjQ2NDU4fQ.EQQyI9mxvAGkgpeBBTQoEbptiDC7DF1zZt_46pHHGY4" type="video/mp4">
+      </video>
+      <canvas id="hero-canvas" class="hero-bg-canvas"></canvas>
+      <div class="hero-bg-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-subtitle">HIGH QUALITY & ELEGANT</p>
+        <h1 class="hero-title">Timeless Elegance.<br><span>Refined Precision.</span></h1>
+        <p class="hero-desc">Order via : our WhatsApp - our Website or by Phone Call.<br>Just have a question ? Marhbaaa, لي ما شرا يتنزه</p>
+        <a href="#/store" class="hero-btn">Explore Showroom</a>
+      </div>
+      <div class="scroll-indicator" onclick="window.location.hash='#/store'">
+        <span>Discover More</span>
+        <div class="scroll-indicator-line"></div>
+      </div>
     </div>
-    
-    <!-- Indicateur de scroll -->
-    <div class="scroll-indicator" onclick="window.location.hash='#/store'">
-      <span>Discover More</span>
-      <div class="scroll-indicator-line"></div>
+
+    <!-- LOCATION BADGE -->
+    <div class="location-bar">
+      <div class="container">
+        <div class="location-badge" id="location-badge">
+          <i class="fas fa-map-marker-alt location-pulse"></i>
+          <span class="location-label">Nos agents sont actuellement à</span>
+          <span class="location-city" id="location-city">
+            <span class="location-loading">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </span>
+          </span>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+
+    <!-- SERVICE SECTION -->
+    <section class="service-section">
+      <div class="container">
+        <div class="service-header">
+          <p class="section-subtitle">Notre Service — خدمتنا</p>
+          <h2 class="section-title">À Votre Service,<br><span style="font-style:italic;">في خدمتكم دائماً</span></h2>
+        </div>
+
+        <div class="service-grid">
+
+          <div class="service-card">
+            <div class="service-card-icon">
+              <i class="fas fa-route"></i>
+            </div>
+            <h3 class="service-card-title">Agents Mobiles<br><span>وكلاء متنقلون</span></h3>
+            <p class="service-card-text">
+              Our agents travel across Morocco's finest cities — always moving, always at your service. When we're in your city, we come to <em>you</em>.
+            </p>
+            <p class="service-card-text service-card-arabic">
+              وكلاؤنا يجوبون أرقى مدن المملكة — في تنقل دائم، وفي خدمتكم دائماً. متى كنّا في مدينتكم، نحن من يأتي إليكم.
+            </p>
+          </div>
+
+          <div class="service-card service-card-featured">
+            <div class="service-card-icon">
+              <i class="fas fa-gem"></i>
+            </div>
+            <h3 class="service-card-title">Essayez. Choisissez. Régnez.<br><span>جرّب. اختر. أنت الملك.</span></h3>
+            <p class="service-card-text">
+              We bring the watches to your door. No pressure, no rush — take all the time you desire to try each piece, feel its weight, admire its craft. Your comfort is our only concern.
+            </p>
+            <p class="service-card-text service-card-arabic">
+              نحضر الساعات إلى بابكم. لا ضغط ولا استعجال — خذوا كل الوقت الذي تريدون لتجربة كل قطعة والإحساس بثقلها وإتقان صنعتها. راحتكم هي همّنا الوحيد.
+            </p>
+            <div class="service-location-hint">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Check our current city above — <strong id="location-city-2">loading...</strong></span>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-card-icon">
+              <i class="fas fa-comments"></i>
+            </div>
+            <h3 class="service-card-title">Juste une question ?<br><span>فقط سؤال؟</span></h3>
+            <p class="service-card-text">
+              You don't need to buy anything to reach out. Curious about a reference? Wondering about availability? Simply want to learn more? We're here — always happy to talk watches with you.
+            </p>
+            <p class="service-card-text service-card-arabic">
+              لا حاجة للشراء كي تتواصلوا معنا. فضوليّون حول طراز معين؟ تسألون عن التوفر؟ تريدون مجرد معرفة المزيد؟ نحن هنا — يسعدنا دائماً الحديث عن الساعات معكم.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="service-cta">
+          <a href="#/contact" class="hero-btn">تواصل معنا — Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-section" id="contact-anchor">
+      <div class="container">
+        <div class="service-header">
+          <p class="section-subtitle">Reach Us — تواصلوا معنا</p>
+          <h2 class="section-title">Contact Us</h2>
+          <p style="color:var(--color-text-secondary);max-width:500px;margin:0 auto 60px auto;text-align:center;">
+            Every message is read. Every question deserves an answer.<br>
+            <span style="font-family:var(--font-heading);font-style:italic;color:var(--color-gold);">كل رسالة تُقرأ. كل سؤال يستحق جواباً.</span>
+          </p>
+        </div>
+
+        <div class="contact-grid">
+
+          <a href="https://www.instagram.com/maganti.n1?igsh=MXBsYXRtNHN4d21hZg==" target="_blank" class="contact-card">
+            <div class="contact-card-icon contact-icon-instagram">
+              <i class="fab fa-instagram"></i>
+            </div>
+            <h3 class="contact-card-title">Instagram</h3>
+            <p class="contact-card-handle">@maganti.n1</p>
+            <p class="contact-card-desc">Follow our curated collection drops, behind-the-scenes, and exclusive previews.</p>
+            <span class="contact-card-action">Follow Us <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a href="https://wa.me/212664433923" target="_blank" class="contact-card contact-card-featured">
+            <div class="contact-card-icon contact-icon-whatsapp">
+              <i class="fab fa-whatsapp"></i>
+            </div>
+            <h3 class="contact-card-title">WhatsApp</h3>
+            <p class="contact-card-handle">+212 664 433 923</p>
+            <p class="contact-card-desc">The fastest way to reach us. Orders, questions, or just a conversation — we reply instantly.</p>
+            <span class="contact-card-action">Message Us <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a href="tel:+212664433923" class="contact-card">
+            <div class="contact-card-icon contact-icon-phone">
+              <i class="fas fa-phone"></i>
+            </div>
+            <h3 class="contact-card-title">Phone Call</h3>
+            <p class="contact-card-handle">+212 664 433 923</p>
+            <p class="contact-card-desc">Prefer a real conversation? Call us directly and speak with a MAGANTi advisor.</p>
+            <span class="contact-card-action">Call Now <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </section><!-- /home-section -->
 
   <!-- STORE SECTION -->
-<!-- STORE SECTION -->
-<!-- STORE SECTION -->
-<section id="store-section" class="page-section">
-  <!-- 🎬 NOUVEAU : Vidéo de fond du showroom -->
-  <video class="store-bg-video" autoplay muted loop playsinline>
-    <source src="background.mp4" type="video/mp4">
-  </video>
-  <div class="store-bg-overlay"></div>
-  
-  <div class="container">
-    <div class="section-header">
-      <p class="section-subtitle">MAGANTi Store</p>
-      <h2 class="section-title">The Showroom</h2>
-      <p style="color:var(--color-text-secondary);max-width:600px;margin:0 auto;">Browse our curated portfolio of exclusive series of watches.</p>
-    </div>
-
+  <section id="store-section" class="page-section">
+    <video class="store-bg-video" autoplay muted loop playsinline>
+      <source src="background.mp4" type="video/mp4">
+    </video>
+    <div class="store-bg-overlay"></div>
+    <div class="container">
+      <div class="section-header">
+        <p class="section-subtitle">MAGANTi Store</p>
+        <h2 class="section-title">The Showroom</h2>
+        <p style="color:var(--color-text-secondary);max-width:600px;margin:0 auto;">Browse our curated portfolio of exclusive series of watches.</p>
+      </div>
 
       <button id="mobile-filter-toggle" class="mobile-filter-toggle" aria-expanded="false">
         <span class="filter-toggle-label">
@@ -113,7 +226,6 @@
                 <i class="fas fa-search search-icon"></i>
               </div>
             </div>
-
             <div class="filter-group">
               <h4 class="filter-title">Brands</h4>
               <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="ROLEX" /><span class="custom-checkbox"></span>Rolex</label>
@@ -122,7 +234,6 @@
               <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="AUDEMARS PIGUET" /><span class="custom-checkbox"></span>Audemars Piguet</label>
               <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="RICHARD MILLE" /><span class="custom-checkbox"></span>Richard Mille</label>
             </div>
-
             <div class="filter-group">
               <h4 class="filter-title">Prix Maximum</h4>
               <div class="price-range-wrapper">
@@ -133,7 +244,6 @@
                 <input type="range" id="price-slider" class="range-slider" min="0" max="5000" step="1" value="5000" />
               </div>
             </div>
-
             <div class="filter-group">
               <h4 class="filter-title">Categories</h4>
               <button class="cat-filter-btn active" data-category="all">All Collections</button>
@@ -141,11 +251,9 @@
               <button class="cat-filter-btn" data-category="dress">Dress</button>
               <button class="cat-filter-btn" data-category="complication">Complication</button>
             </div>
-
             <button id="clear-filters-btn" class="clear-filters-btn">Reset Filters</button>
           </div>
         </aside>
-
         <div class="catalog-content">
           <div class="catalog-toolbar">
             <span id="results-count" class="results-count">8 watches found</span>
@@ -198,7 +306,7 @@
       <form id="checkout-form">
         <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="form-name" class="form-input" placeholder="Your full name" required /></div>
         <div class="form-group"><label class="form-label">Message</label><textarea id="form-message" class="form-input" rows="3" placeholder="Your question or request..."></textarea></div>
-        <button type="submit" class="submit-btn">SEND</button>
+        <button type="submit" class="submit-btn">SEND VIA WHATSAPP</button>
       </form>
     </div>
   </div>
@@ -215,7 +323,7 @@
     </div>
   </div>
 
-  <!-- LIGHTBOX (nouveau) -->
+  <!-- LIGHTBOX -->
   <div id="lightbox" class="lightbox">
     <button class="lightbox-close" aria-label="Close"><i class="fas fa-times"></i></button>
     <button class="lightbox-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
@@ -247,37 +355,10 @@
             <i class="fas fa-phone" style="color:var(--color-gold); margin-right:6px;"></i>+212 664 433 923
           </p>
         </div>
-        <!--
-        <div class="footer-col">
-          <h4>Showroom</h4>
-          <ul>
-            <li><a href="#/store">Sport Series</a></li>
-            <li><a href="#/store">Dress Series</a></li>
-            <li><a href="#/store">High Complications</a></li>
-            <li><a href="#/store">Exclusives</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Concierge</h4>
-          <ul>
-            <li><a href="#">Direct Acquisition</a></li>
-            <li><a href="#">Bespoke Inquiries</a></li>
-            <li><a href="#">Horological Care</a></li>
-            <li><a href="#">Contact Us</a></li>
-          </ul>
-        </div>
       </div>
-      -->
       <div class="footer-bottom">
         <p>© 2026 MAGANTi. All rights reserved.</p>
-        <!--
-        <div class="footer-terms">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Secured Protocols</a>
-        </div>
       </div>
-      -->
     </div>
   </footer>
 
