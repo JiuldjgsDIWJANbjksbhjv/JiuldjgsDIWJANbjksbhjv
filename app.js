@@ -340,7 +340,7 @@ function setupEventListeners() {
         `• ${item.brand} ${item.name} (x${item.quantity}) — ${(item.price * item.quantity).toLocaleString()} MAD`
       ).join("\n");
       msg = encodeURIComponent(
-        `=========  ORDER  ========= \n\nHello Dear MAGANTi,\n\nI'm interested in :\n*${watchList}*\n\nCan we confirm the order ?\n\n- Name: *${nameVal}*`
+        `=========  ORDER  ========= \n\nHello Dear MAGANTi,\n\nI'm interested in :\n\n${watchList}\n\nCan we confirm the order ?\n\n- Name: *${nameVal}\n- Address : *${messageVal}*`
       );
     }
 
