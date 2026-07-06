@@ -332,7 +332,7 @@ function setupEventListeners() {
     if (watchName) {
       // MODE INQUIRY — depuis la page détail d'une montre
       msg = encodeURIComponent(
-        `== INQUIRY == \n\nHello Dear MAGANTi,\n\nI'm ${nameVal} and asking for the : \n\n   - ${watchName} \n\n and my question is: ${messageVal}`
+        `     == INQUIRY == \n\nHello Dear MAGANTi,\n\nI'm *${nameVal}* and asking for the : \n\n - ${watchName} \n\n and my question is: ${messageVal}`
       );
     } else {
       // MODE CART — confirmation de commande
@@ -340,7 +340,7 @@ function setupEventListeners() {
         `• ${item.brand} ${item.name} (x${item.quantity}) — ${(item.price * item.quantity).toLocaleString()} MAD`
       ).join("\n");
       msg = encodeURIComponent(
-        `==  ORDER  == \n\nHello Dear MAGANTi,\n\nI'm interested in :\n${watchList}\n\nCan we confirm the order ?\n\n- Name: ${nameVal}`
+        `     ==  ORDER  == \n\nHello Dear MAGANTi,\n\nI'm interested in :\n${watchList}\n\nCan we confirm the order ?\n\n- Name: *${nameVal}*`
       );
     }
 
