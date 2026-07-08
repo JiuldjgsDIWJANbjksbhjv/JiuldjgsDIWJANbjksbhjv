@@ -708,7 +708,8 @@ nav ul li.active a::after {
 .watch-card-img-link {
   display: block;
   width: 100%;
-  aspect-ratio: 1;
+  height: 0;
+  padding-bottom: 100%; /* ratio 1:1 fiable sur iOS/Safari anciens (aspect-ratio non supporté < iOS 15) */
   overflow: hidden;
   background: #000;
   position: relative;
@@ -716,9 +717,13 @@ nav ul li.active a::after {
 }
 
 .watch-card img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  -o-object-fit: cover;
   transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -730,15 +735,22 @@ nav ul li.active a::after {
   position: absolute;
   top: 15px;
   left: 15px;
-  background: var(--color-gold);
-  color: var(--color-bg-deep);
+  background: linear-gradient(135deg, #ff3b30 0%, #ff9500 100%);
+  color: #fff;
   font-size: 9px;
-  font-weight: 700;
-  padding: 4px 10px;
+  font-weight: 800;
+  padding: 5px 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  border-radius: 2px;
-  z-index: 10;
+  border-radius: 3px;
+  z-index: 15;
+  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.5);
+  animation: badgeGlow 2.2s ease-in-out infinite;
+}
+
+@keyframes badgeGlow {
+  0%, 100% { box-shadow: 0 4px 16px rgba(255, 59, 48, 0.5); transform: scale(1); }
+  50%      { box-shadow: 0 4px 24px rgba(255, 149, 0, 0.75); transform: scale(1.06); }
 }
 
 .watch-card-info {
@@ -801,6 +813,14 @@ nav ul li.active a::after {
   transform: translateX(3px);
 }
 
+.watch-card-btn-reserve {
+  color: #ff9500;
+}
+
+.watch-card-btn-reserve:hover {
+  color: #ff3b30;
+}
+
 /* No Results State */
 .no-results {
   text-align: center;
@@ -857,7 +877,8 @@ nav ul li.active a::after {
 
 .media-stage {
   width: 100%;
-  aspect-ratio: 1.1;
+  height: 0;
+  padding-bottom: 90.9%; /* ratio ~1.1:1, fiable sur iOS/Safari anciens (fallback à aspect-ratio) */
   background: #000;
   border: 1px solid var(--color-border);
   border-radius: 4px;
@@ -868,14 +889,37 @@ nav ul li.active a::after {
 
 .media-stage img,
 .media-stage video {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  -o-object-fit: cover;
   transition: var(--transition-smooth);
 }
 
 .media-stage video {
   display: none;
+}
+
+/* Carousel slides — étaient sans style (bug pré-existant, casse l'affichage
+   sur tous navigateurs). Empilage en absolu + fondu selon la classe .active */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
 }
 
 /* Simulated Video Canvas/Player */
@@ -1049,6 +1093,17 @@ nav ul li.active a::after {
   background: var(--color-gold-bright);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(197, 168, 128, 0.3);
+}
+
+.btn-reserve {
+  background: linear-gradient(135deg, #ff9500 0%, #ff3b30 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(255, 59, 48, 0.25);
+}
+
+.btn-reserve:hover {
+  background: linear-gradient(135deg, #ffaa33 0%, #ff5c47 100%);
+  box-shadow: 0 8px 25px rgba(255, 59, 48, 0.35);
 }
 
 .btn-outline {
@@ -2014,7 +2069,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .watch-card { min-width: 0; }
-  .watch-card-img-link { aspect-ratio: 1; }
 
   .watch-card-info { padding: 10px; }
   .watch-card-brand { font-size: 9px; letter-spacing: 0.08em; margin-bottom: 4px; }
@@ -2445,125 +2499,4 @@ h1, h2, h3, h4, h5, h6 {
   .contact-card-title { font-size: 22px; }
   .location-label { font-size: 10px; letter-spacing: 0.1em; }
   .location-city { font-size: 16px; }
-}
-
-/* ==========================================================================
-   FIX 2 — iOS Watch Card Grid
-   Les cartes ne se comportent pas bien sur iOS Safari car aspect-ratio
-   n'est pas géré de la même façon. On utilise le trick padding-bottom.
-   ========================================================================== */
-
-.watch-card-img-link {
-  display: block;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  background: #000;
-  cursor: pointer;
-  /* Fallback universel : padding-bottom crée un carré parfait sur tous les navigateurs */
-  height: 0;
-  padding-bottom: 100%;
-}
-
-.watch-card-img-link img {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.watch-card:hover .watch-card-img-link img {
-  transform: scale(1.1);
-}
-
-/* Assure que la carte ne s'écrase pas sur iOS */
-.watch-card {
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-/* ==========================================================================
-   FIX 3 — Bouton RESERVE (rupture de stock)
-   ========================================================================== */
-.btn-reserve {
-  background: transparent !important;
-  border: 1px solid var(--color-gold) !important;
-  color: var(--color-gold) !important;
-  animation: reservePulse 2.5s infinite;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-reserve::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(197,168,128,0.15), transparent);
-  animation: reserveShimmer 2.5s infinite;
-}
-
-.btn-reserve:hover {
-  background: rgba(197,168,128,0.1) !important;
-  box-shadow: 0 0 20px rgba(197, 168, 128, 0.2) !important;
-}
-
-@keyframes reservePulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(197, 168, 128, 0.3); }
-  50%       { box-shadow: 0 0 0 8px rgba(197, 168, 128, 0); }
-}
-
-@keyframes reserveShimmer {
-  0%   { left: -100%; }
-  60%, 100% { left: 150%; }
-}
-
-/* ==========================================================================
-   FIX 4 — Badge attractif (glow effect)
-   ========================================================================== */
-
-/* Badge sur les cartes (liste showroom) */
-.watch-card-badge.badge-glow {
-  background: linear-gradient(135deg, #ff6b35, #f7c948, #ff6b35);
-  background-size: 200% 100%;
-  color: #1a0a00;
-  font-weight: 800;
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  padding: 5px 12px;
-  border-radius: 2px;
-  box-shadow: 0 0 12px rgba(247, 201, 72, 0.6), 0 0 24px rgba(255, 107, 53, 0.3);
-  animation: badgeGlow 2s infinite ease-in-out, badgeSlide 3s infinite linear;
-  text-transform: uppercase;
-  z-index: 10;
-}
-
-/* Badge sur la page détail */
-.details-badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  padding: 6px 16px;
-  border-radius: 2px;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #ff6b35, #f7c948, #ff6b35);
-  background-size: 200% 100%;
-  color: #1a0a00;
-  box-shadow: 0 0 16px rgba(247, 201, 72, 0.7), 0 0 32px rgba(255, 107, 53, 0.3);
-  animation: badgeGlow 2s infinite ease-in-out, badgeSlide 3s infinite linear;
-}
-
-@keyframes badgeGlow {
-  0%, 100% { box-shadow: 0 0 12px rgba(247,201,72,0.6), 0 0 24px rgba(255,107,53,0.3); }
-  50%       { box-shadow: 0 0 20px rgba(247,201,72,0.9), 0 0 40px rgba(255,107,53,0.5); }
-}
-
-@keyframes badgeSlide {
-  0%   { background-position: 200% center; }
-  100% { background-position: -200% center; }
 }
