@@ -335,7 +335,7 @@ function setupEventListeners() {
     if (mode === "reserve") {
       // MODE RESERVE — montre en rupture de stock, réservation automatique
       msg = encodeURIComponent(
-        `========= RESERVATION ========= \n\nHello Dear MAGANTi,\n\nI'm *${nameVal.toUpperCase()}* and I would like to *RESERVE* the following piece, currently out of stock : \n\n - *${watchName}* \n\nPlease *confirm my reservation* and notify me automatically once it's back in stock — no need for me to follow up.${messageVal ? `\n\nNote: *${messageVal}*` : ""}`
+        `========= RESERVATION ========= \n\nHello Dear MAGANTi,\n\nI'm *${nameVal.toUpperCase()}* and I would like to *RESERVE* the following piece, currently out of stock : \n\n - *${watchName}* \n\nPlease *confirm my reservation with me* and notify me automatically once it's back in stock.${messageVal ? `\n\nNote: *${messageVal}*` : ""}`
       );
     } else if (mode === "inquiry") {
       // MODE INQUIRY — depuis la page détail d'une montre (nom + message)
