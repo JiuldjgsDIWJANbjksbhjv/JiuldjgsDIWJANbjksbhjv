@@ -344,7 +344,7 @@ function setupEventListeners() {
       );
     }
 
-    window.open(`https://wa.me/212664433923?text=${msg}`, "_blank");
+    window.open(`https://wa.me/212666981560?text=${msg}`, "_blank");
 
     if (checkoutModal) delete checkoutModal.dataset.watchName;
     checkoutModal?.classList.remove("open");
