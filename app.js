@@ -5,7 +5,7 @@
 // ==========================================================================
 // SUPABASE CONFIG
 // ==========================================================================
-const SUPABASE_URL     = "https://kfflzhlpgnsozvufsmtt.supabase.co";
+const SUPABASE_URL      = "https://kfflzhlpgnsozvufsmtt.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZmx6aGxwZ25zb3p2dWZzbXR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MDc1MDIsImV4cCI6MjA5NzI4MzUwMn0.mNknwuJ9VoV6Ok4FHjlsN7k_P9o28GpmxgAzuFC8CIA";
 
 // ==========================================================================
@@ -60,7 +60,6 @@ async function loadWatchesFromSupabase() {
     );
     if (!res.ok) throw new Error(`Supabase error: ${res.status}`);
     const rows = await res.json();
-
     WATCHES_DATA = rows.map(r => ({
       id:              r.id,
       name:            r.name,
@@ -103,7 +102,6 @@ async function loadAgentLocation() {
     if (!res.ok) throw new Error();
     const rows = await res.json();
     const city = rows[0]?.localisation || "—";
-
     const el1 = document.getElementById("location-city");
     const el2 = document.getElementById("location-city-2");
     if (el1) el1.textContent = city;
@@ -148,7 +146,6 @@ function handleRouting() {
   } else if (hash === "#/contact") {
     showSection(mainHomeSection);
     document.querySelector('nav ul li a[href="#/contact"]')?.parentElement.classList.add("active");
-    // Scroll to contact anchor after section is shown
     setTimeout(() => {
       const anchor = document.getElementById("contact-anchor");
       if (anchor) anchor.scrollIntoView({ behavior: "smooth" });
@@ -199,10 +196,8 @@ window.addEventListener("DOMContentLoaded", async () => {
   setupLightbox();
   updateCartUI();
 
-  // Load data from Supabase
   await loadWatchesFromSupabase();
   loadAgentLocation();
-
   handleRouting();
 });
 
@@ -214,17 +209,61 @@ window.addEventListener("scroll", () => {
 });
 
 /* ==========================================================================
+   MODAL — Mode switcher
+   Modes: "order" | "inquiry" | "reserve"
+   Chaque mode adapte le titre, sous-titre et champs du formulaire
+   ========================================================================== */
+function openModal(mode, watchName = "") {
+  if (!checkoutModal) return;
+
+  const title    = checkoutModal.querySelector(".modal-title");
+  const subtitle = document.getElementById("modal-subtitle");
+  const fieldAddress = document.getElementById("field-address");   // groupe adresse (order)
+  const fieldMessage = document.getElementById("field-message");   // groupe message (inquiry/reserve)
+  const labelMessage = document.getElementById("label-message");
+  const submitBtn = checkoutModal.querySelector(".submit-btn");
+
+  // Mémoriser le mode et la montre
+  checkoutModal.dataset.mode      = mode;
+  checkoutModal.dataset.watchName = watchName;
+
+  if (mode === "order") {
+    if (title)       title.textContent     = "Confirm Your Order";
+    if (subtitle)    subtitle.textContent  = "Your selection will be sent to our team via WhatsApp.";
+    if (fieldAddress) fieldAddress.style.display = "block";
+    if (fieldMessage) fieldMessage.style.display = "none";
+    if (submitBtn)   submitBtn.textContent = "CONFIRM ORDER VIA WHATSAPP";
+
+  } else if (mode === "inquiry") {
+    if (title)       title.textContent     = "Request Inquiry";
+    if (subtitle)    subtitle.textContent  = `Inquiry for: ${watchName}`;
+    if (fieldAddress) fieldAddress.style.display = "none";
+    if (fieldMessage) fieldMessage.style.display = "block";
+    if (labelMessage) labelMessage.textContent   = "Your Question";
+    if (submitBtn)   submitBtn.textContent = "SEND INQUIRY VIA WHATSAPP";
+
+  } else if (mode === "reserve") {
+    if (title)       title.textContent     = "Reserve This Watch";
+    if (subtitle)    subtitle.textContent  = `Reserve: ${watchName} — We'll notify you when it's back in stock.`;
+    if (fieldAddress) fieldAddress.style.display = "none";
+    if (fieldMessage) fieldMessage.style.display = "block";
+    if (labelMessage) labelMessage.textContent   = "Your Note (optional)";
+    if (submitBtn)   submitBtn.textContent = "RESERVE VIA WHATSAPP";
+  }
+
+  checkoutModal.classList.add("open");
+}
+
+/* ==========================================================================
    EVENT LISTENERS
    ========================================================================== */
 function setupEventListeners() {
 
-  // Search
   searchInput?.addEventListener("input", e => {
     activeFilters.search = e.target.value.trim().toLowerCase();
     renderStore();
   });
 
-  // Brand checkboxes
   document.querySelectorAll(".brand-filter-cb").forEach(cb => {
     cb.addEventListener("change", e => {
       const brand = e.target.value;
@@ -237,7 +276,6 @@ function setupEventListeners() {
     });
   });
 
-  // Price slider
   priceSlider?.addEventListener("input", e => {
     const val = parseInt(e.target.value);
     activeFilters.maxPrice = val;
@@ -245,13 +283,11 @@ function setupEventListeners() {
     renderStore();
   });
 
-  // Sort
   sortSelect?.addEventListener("change", e => {
     currentSort = e.target.value;
     renderStore();
   });
 
-  // Category buttons
   document.querySelectorAll(".cat-filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".cat-filter-btn").forEach(b => b.classList.remove("active"));
@@ -261,7 +297,6 @@ function setupEventListeners() {
     });
   });
 
-  // Clear filters
   clearFiltersBtn?.addEventListener("click", () => {
     activeFilters.search   = "";
     activeFilters.brands   = [];
@@ -277,7 +312,6 @@ function setupEventListeners() {
     renderStore();
   });
 
-  // Cart open
   document.querySelectorAll(".cart-trigger").forEach(el => {
     el.addEventListener("click", e => {
       e.preventDefault();
@@ -285,76 +319,82 @@ function setupEventListeners() {
     });
   });
 
-  // Cart close
   document.querySelector(".cart-close-btn")?.addEventListener("click", () => {
     cartOverlay.classList.remove("open");
   });
+
   cartOverlay?.addEventListener("click", e => {
     if (e.target === cartOverlay) cartOverlay.classList.remove("open");
   });
 
-  // Cart checkout → open modal
+  // Cart checkout → mode ORDER
   document.querySelector(".cart-checkout-btn")?.addEventListener("click", () => {
     if (cart.length === 0) { showToast("Your selection is empty"); return; }
     cartOverlay.classList.remove("open");
-    if (checkoutModal) {
-      delete checkoutModal.dataset.watchName;
-      checkoutModal.classList.add("open");
-    }
+    openModal("order");
   });
 
-  // Modal close buttons
   document.querySelectorAll(".modal-close-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       checkoutModal?.classList.remove("open");
       successModal?.classList.remove("open");
     });
   });
+
   document.querySelector(".modal-close-btn-static")?.addEventListener("click", () => {
     successModal?.classList.remove("open");
   });
+
   [checkoutModal, successModal].forEach(modal => {
     modal?.addEventListener("click", e => {
       if (e.target === modal) modal.classList.remove("open");
     });
   });
 
-  // Form submit — WhatsApp
+  // ── FORM SUBMIT — WhatsApp (3 modes) ──────────────────────────────────────
   document.getElementById("checkout-form")?.addEventListener("submit", e => {
     e.preventDefault();
 
     const nameVal    = document.getElementById("form-name")?.value.trim()    || "";
-    const messageVal = document.getElementById("form-message")?.value.trim() || "";
+    const addressVal = document.getElementById("form-address")?.value.trim() || "";
+    const messageVal = document.getElementById("form-message-text")?.value.trim() || "";
+    const mode       = checkoutModal?.dataset.mode      || "order";
     const watchName  = checkoutModal?.dataset.watchName || "";
 
     let msg;
 
-    if (watchName) {
-      // MODE INQUIRY — depuis la page détail d'une montre
-      msg = encodeURIComponent(
-        `========= INQUIRY ========= \n\nHello Dear MAGANTi,\n\nI'm *${nameVal.toUpperCase()}* and asking for the : \n\n - *${watchName}* \n\n and my question is: *${messageVal}*`
-      );
-    } else {
-      // MODE CART — confirmation de commande
+    if (mode === "order") {
       const watchList = cart.map(item =>
-        `• ${item.brand} ${item.name} (x${item.quantity}) — ${(item.price * item.quantity).toLocaleString()} MAD`
+        `  • ${item.brand} ${item.name} (x${item.quantity}) — ${(item.price * item.quantity).toLocaleString()} MAD`
       ).join("\n");
       msg = encodeURIComponent(
-        `=========  ORDER  ========= \n\nHello Dear MAGANTi,\n\nI'm interested in :\n\n${watchList}\n\nCan we confirm the order ?\n\n- Name: *${nameVal.toUpperCase()}*\n- Address : *${messageVal.toUpperCase()}*`
+        `=========  ORDER  =========\n\nHello Dear MAGANTi,\n\nI'm interested in :\n\n${watchList}\n\nCan we confirm the order ?\n\n- Name: *${nameVal.toUpperCase()}*\n- Address: *${addressVal.toUpperCase()}*`
+      );
+
+    } else if (mode === "inquiry") {
+      msg = encodeURIComponent(
+        `======= INQUIRY =======\n\nHello Dear MAGANTi,\n\nI'm *${nameVal.toUpperCase()}* and asking for the:\n\n  - *${watchName}*\n\nMy question is: *${messageVal}*`
+      );
+
+    } else if (mode === "reserve") {
+      msg = encodeURIComponent(
+        `======= RESERVATION =======\n\nHello Dear MAGANTi,\n\nI'm *${nameVal.toUpperCase()}* and I'd like to *reserve*:\n\n  - *${watchName}*\n\nPlease notify me when it's back in stock.\n\n${messageVal ? `Note: ${messageVal}` : ""}`
       );
     }
 
     window.open(`https://wa.me/212666981560?text=${msg}`, "_blank");
 
-    if (checkoutModal) delete checkoutModal.dataset.watchName;
     checkoutModal?.classList.remove("open");
     successModal?.classList.add("open");
 
-    if (!watchName) {
+    if (mode === "order") {
       cart = [];
       saveCart();
       updateCartUI();
     }
+
+    // Reset form
+    e.target.reset();
   });
 }
 
@@ -369,17 +409,17 @@ function renderStore() {
       watch.name.toLowerCase().includes(activeFilters.search) ||
       watch.brand.toLowerCase().includes(activeFilters.search) ||
       (watch.description || "").toLowerCase().includes(activeFilters.search);
-    const matchesBrand  = activeFilters.brands.length === 0 || activeFilters.brands.includes(watch.brand);
-    const matchesPrice  = activeFilters.maxPrice === 5000 || watch.price <= activeFilters.maxPrice;
-    const matchesCat    = activeFilters.category === "all" ||
+    const matchesBrand = activeFilters.brands.length === 0 || activeFilters.brands.includes(watch.brand);
+    const matchesPrice = activeFilters.maxPrice === 5000 || watch.price <= activeFilters.maxPrice;
+    const matchesCat   = activeFilters.category === "all" ||
       (watch.category || "").toLowerCase() === activeFilters.category.toLowerCase();
     return matchesSearch && matchesBrand && matchesPrice && matchesCat;
   });
 
-  if (currentSort === "price-low")  filtered.sort((a, b) => a.price - b.price);
+  if (currentSort === "price-low")       filtered.sort((a, b) => a.price - b.price);
   else if (currentSort === "price-high") filtered.sort((a, b) => b.price - a.price);
   else if (currentSort === "brand-az")   filtered.sort((a, b) => a.brand.localeCompare(b.brand));
-  else filtered.sort((a, b) => b.price - a.price);
+  else                                   filtered.sort((a, b) => b.price - a.price);
 
   if (resultsCount) resultsCount.textContent = `${filtered.length} watch${filtered.length !== 1 ? "es" : ""} found`;
 
@@ -393,7 +433,7 @@ function renderStore() {
 
   productsGrid.innerHTML = filtered.map(watch => `
     <div class="watch-card">
-      ${watch.badge ? `<span class="watch-card-badge">${watch.badge}</span>` : ""}
+      ${watch.badge ? `<span class="watch-card-badge badge-glow">${watch.badge}</span>` : ""}
       <span class="stock-badge ${watch.inStock ? "in-stock" : "out-of-stock"}">${watch.inStock ? "En Stock" : "Rupture"}</span>
       <a href="#/watch/${watch.id}" class="watch-card-img-link">
         <img src="${watch.images[0]}" alt="${watch.brand} ${watch.name}" loading="lazy">
@@ -453,6 +493,13 @@ function renderDetails(watch) {
     }
   }).join("");
 
+  // FIX 3 — bouton selon inStock
+  const actionBtn = watch.inStock
+    ? `<button class="btn-primary" onclick="addToCart('${watch.id}')">ADD TO SELECTION</button>`
+    : `<button class="btn-primary btn-reserve" onclick="openReserveModal('${watch.brand} ${watch.name}')">
+         <i class="fas fa-bell" style="margin-right:8px;"></i>RÉSERVER — NOTIFY ME
+       </button>`;
+
   detailsContainer.innerHTML = `
     <a href="#/store" class="back-to-store" onclick="stopAutoSlide()">
       <i class="fas fa-arrow-left"></i> Back to Showroom
@@ -471,6 +518,7 @@ function renderDetails(watch) {
       </div>
       <div class="details-info">
         <span class="details-brand">${watch.brand}</span>
+        ${watch.badge ? `<span class="details-badge badge-glow">${watch.badge}</span>` : ""}
         <h1 class="details-title">${watch.name}</h1>
         <div class="details-price">
           ${watch.price.toLocaleString()} MAD
@@ -480,7 +528,7 @@ function renderDetails(watch) {
         </div>
         <p class="details-desc">${watch.description}</p>
         <div class="details-actions">
-          <button class="btn-primary" onclick="addToCart('${watch.id}')">ADD TO SELECTION</button>
+          ${actionBtn}
           <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">REQUEST INQUIRY</button>
         </div>
         <h3 class="specs-title">Technical Specifications</h3>
@@ -500,6 +548,17 @@ function renderDetails(watch) {
   initCarouselEvents(watch);
   startAutoSlide();
 }
+
+/* ==========================================================================
+   CONTACT / INQUIRY / RESERVE — openers
+   ========================================================================== */
+window.openContactModal = function(pieceName) {
+  openModal("inquiry", pieceName);
+};
+
+window.openReserveModal = function(pieceName) {
+  openModal("reserve", pieceName);
+};
 
 /* ==========================================================================
    CAROUSEL
@@ -536,7 +595,7 @@ function initCarouselEvents(watch) {
   });
 
   const videoOverlay = stage.querySelector(".video-play-overlay");
-  const video = stage.querySelector("video");
+  const video        = stage.querySelector("video");
 
   if (videoOverlay) {
     videoOverlay.addEventListener("click", e => {
@@ -563,16 +622,13 @@ function initCarouselEvents(watch) {
 function goToSlide(index) {
   const stage = document.getElementById("media-stage");
   if (!stage) return;
-
   const currentVideo = stage.querySelector("video");
   if (currentVideo) { currentVideo.pause(); currentVideo.currentTime = 0; }
   stage.classList.remove("playing");
   const overlay = stage.querySelector(".video-play-overlay");
   if (overlay) overlay.style.display = "flex";
-
   stage.querySelectorAll(".slide").forEach((s, i) => s.classList.toggle("active", i === index));
   document.querySelectorAll(".thumb-item").forEach((t, i) => t.classList.toggle("active", i === index));
-
   const counter = document.getElementById("slide-current");
   if (counter) counter.textContent = index + 1;
   currentSlideIndex = index;
@@ -589,7 +645,6 @@ function stopAutoSlide() {
   if (autoSlideInterval) { clearInterval(autoSlideInterval); autoSlideInterval = null; }
 }
 function resetAutoSlide() { stopAutoSlide(); startAutoSlide(); }
-
 window.stopAutoSlide = stopAutoSlide;
 
 /* ==========================================================================
@@ -597,7 +652,6 @@ window.stopAutoSlide = stopAutoSlide;
    ========================================================================== */
 function setupLightbox() {
   if (!lightbox) return;
-
   lightbox.querySelector(".lightbox-close")?.addEventListener("click", closeLightbox);
   lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
   lightbox.querySelector(".lightbox-prev")?.addEventListener("click", e => { e.stopPropagation(); lightboxPrev(); });
@@ -605,9 +659,9 @@ function setupLightbox() {
 
   document.addEventListener("keydown", e => {
     if (!lightbox.classList.contains("open")) return;
-    if (e.key === "Escape")      closeLightbox();
-    if (e.key === "ArrowLeft")   lightboxPrev();
-    if (e.key === "ArrowRight")  lightboxNext();
+    if (e.key === "Escape")     closeLightbox();
+    if (e.key === "ArrowLeft")  lightboxPrev();
+    if (e.key === "ArrowRight") lightboxNext();
   });
 
   let touchStartX = 0;
@@ -653,18 +707,6 @@ function updateLightboxContent() {
     lightboxVideo.play().catch(() => {});
   }
 }
-
-/* ==========================================================================
-   CONTACT MODAL (REQUEST INQUIRY)
-   ========================================================================== */
-window.openContactModal = function(pieceName) {
-  const modalText = document.getElementById("modal-subtitle");
-  if (modalText) modalText.textContent = `Inquiry for: ${pieceName}`;
-  if (checkoutModal) {
-    checkoutModal.dataset.watchName = pieceName;
-    checkoutModal.classList.add("open");
-  }
-};
 
 /* ==========================================================================
    CART
@@ -783,9 +825,9 @@ function initHeroCanvas() {
 
   function getGears() {
     return [
-      { x: width * 0.5,       y: height * 0.5,      radius: 180, teeth: 32, speed: 0.002, dir:  1, color: "rgba(197,168,128,0.08)" },
-      { x: width * 0.5 - 240, y: height * 0.5 + 80, radius:  90, teeth: 16, speed: 0.004, dir: -1, color: "rgba(255,255,255,0.03)" },
-      { x: width * 0.5 + 240, y: height * 0.5 - 80, radius:  90, teeth: 16, speed: 0.004, dir: -1, color: "rgba(255,255,255,0.03)" }
+      { x: width*0.5,       y: height*0.5,      radius:180, teeth:32, speed:0.002, dir: 1, color:"rgba(197,168,128,0.08)" },
+      { x: width*0.5 - 240, y: height*0.5 + 80, radius: 90, teeth:16, speed:0.004, dir:-1, color:"rgba(255,255,255,0.03)" },
+      { x: width*0.5 + 240, y: height*0.5 - 80, radius: 90, teeth:16, speed:0.004, dir:-1, color:"rgba(255,255,255,0.03)" }
     ];
   }
 
@@ -796,39 +838,28 @@ function initHeroCanvas() {
     ctx.fillStyle   = gear.color;
     ctx.strokeStyle = "rgba(197,168,128,0.12)";
     ctx.lineWidth   = 1;
-
-    ctx.beginPath();
-    ctx.arc(0, 0, gear.radius - 12, 0, Math.PI * 2);
-    ctx.fill(); ctx.stroke();
-
-    for (let i = 0; i < 5; i++) {
-      ctx.rotate((Math.PI * 2) / 5);
-      ctx.beginPath();
-      ctx.rect(-8, 0, 16, gear.radius - 15);
-      ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(0,0,gear.radius-12,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    for (let i=0;i<5;i++) {
+      ctx.rotate((Math.PI*2)/5);
+      ctx.beginPath(); ctx.rect(-8,0,16,gear.radius-15); ctx.fill(); ctx.stroke();
     }
-
     ctx.beginPath();
-    for (let i = 0; i < gear.teeth; i++) {
-      const ta = (Math.PI * 2) / gear.teeth * i;
-      ctx.moveTo(Math.cos(ta) * (gear.radius - 12), Math.sin(ta) * (gear.radius - 12));
-      ctx.lineTo(Math.cos(ta - 0.05) * gear.radius, Math.sin(ta - 0.05) * gear.radius);
-      ctx.lineTo(Math.cos(ta + 0.05) * gear.radius, Math.sin(ta + 0.05) * gear.radius);
+    for (let i=0;i<gear.teeth;i++) {
+      const ta=(Math.PI*2)/gear.teeth*i;
+      ctx.moveTo(Math.cos(ta)*(gear.radius-12),Math.sin(ta)*(gear.radius-12));
+      ctx.lineTo(Math.cos(ta-0.05)*gear.radius,Math.sin(ta-0.05)*gear.radius);
+      ctx.lineTo(Math.cos(ta+0.05)*gear.radius,Math.sin(ta+0.05)*gear.radius);
       ctx.closePath();
     }
     ctx.fill(); ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(0, 0, 30, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(5,5,5,1)";
-    ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(0,0,30,0,Math.PI*2); ctx.fillStyle="rgba(5,5,5,1)"; ctx.fill(); ctx.stroke();
     ctx.restore();
   }
 
   function loop() {
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0,0,width,height);
     angle += 0.005;
-    getGears().forEach(gear => drawGear(gear, angle * gear.speed * 10 * gear.dir));
+    getGears().forEach(gear => drawGear(gear, angle*gear.speed*10*gear.dir));
     heroCanvasAnimId = requestAnimationFrame(loop);
   }
   loop();
@@ -884,33 +915,25 @@ function initHeroCanvas() {
       (activeFilters.search ? 1 : 0) +
       activeFilters.brands.length +
       (activeFilters.category !== "all" ? 1 : 0);
-    if (active > 0) {
-      badge.textContent = active;
-      badge.classList.add("visible");
-    } else {
-      badge.classList.remove("visible");
-    }
+    if (active > 0) { badge.textContent = active; badge.classList.add("visible"); }
+    else { badge.classList.remove("visible"); }
   }
 
-  ["input", "change", "click"].forEach(evt => {
+  ["input","change","click"].forEach(evt => {
     filtersBody.addEventListener(evt, () => setTimeout(updateFilterBadge, 50));
   });
 })();
 
 /* ==========================================================================
-   HERO HEIGHT FIX — Mobile 100dvh fallback
+   HERO HEIGHT FIX — Mobile
    ========================================================================== */
 (function() {
   function fixHeroHeight() {
     const hero = document.querySelector(".hero");
     if (!hero) return;
-    if (window.innerWidth <= 768) {
-      hero.style.height = window.innerHeight + "px";
-    } else {
-      hero.style.height = "";
-    }
+    hero.style.height = window.innerWidth <= 768 ? window.innerHeight + "px" : "";
   }
   fixHeroHeight();
-  window.addEventListener("resize",     fixHeroHeight);
+  window.addEventListener("resize", fixHeroHeight);
   window.addEventListener("hashchange", () => setTimeout(fixHeroHeight, 50));
 })();
