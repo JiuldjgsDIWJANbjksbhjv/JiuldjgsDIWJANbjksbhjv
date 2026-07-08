@@ -1,172 +1,260 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MAGANTi | Haute Horlogerie - Fine Luxury Watches</title>
-  <meta name="description" content="Discover MAGANTi, the ultimate digital showroom for high-end luxury timepieces. Explore exclusive models from Rolex, Patek Philippe, Audemars Piguet, and Richard Mille.">
-  <meta name="keywords" content="luxury watches, MAGANTi, rolex, patek philippe, audemars piguet, richard mille, tourbillon, chronometer">
-  <meta name="author" content="MAGANTi">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/jpeg" href="header.png" />
+  <title>MAGANTi</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
 
-  <!-- Header Navigation -->
+  <!-- HEADER -->
   <header>
     <div class="container nav-container">
       <a href="#/home" class="logo">
-        <img id="logo-img" src="logo.png" alt="MAGANTi" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
-        <div id="logo-fallback" class="logo-text" style="display: none;">MAGANT<span>i</span></div>
+        <img src="icon.jpg" alt="MAGANTi" class="logo-icon" />
       </a>
-      
       <nav>
         <ul>
-          <li class="active"><a href="#/home">Home</a></li>
+          <li><a href="#/home">Home</a></li>
           <li><a href="#/store">Showroom</a></li>
+          <li><a href="#/contact">Contact Us</a></li>
         </ul>
       </nav>
-      
       <div class="header-actions">
-        <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu">
+        <a href="#" class="icon-btn cart-trigger" aria-label="Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count" style="display:none;">0</span>
+        </a>
+        <button id="hamburger-btn" class="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
-        </button>
-        <button class="icon-btn cart-trigger" id="cart-btn" aria-label="Open Selection Bag">
-          <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24">
-            <path d="M17.21,9l-4.38-6.56c-0.19-0.28-0.51-0.44-0.83-0.44s-0.64,0.16-0.83,0.43L6.79,9H2v2h2v9c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-9h2V9H17.21z M9,9l3-4.5L15,9H9z M18,20H6v-9h12V20z M9,12h2v6H9V12z M13,12h2v6h-2V12z"/>
-          </svg>
-          <span class="cart-count">0</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAV OVERLAY -->
-  <div class="mobile-nav-overlay" id="mobile-nav">
+  <!-- MOBILE NAV -->
+  <div id="mobile-nav" class="mobile-nav-overlay">
     <ul>
-      <li class="active"><a href="#/home" id="mob-home-link">Home</a></li>
-      <li><a href="#/store" id="mob-store-link">Showroom</a></li>
+      <li><a href="#/home">Home</a></li>
+      <li><a href="#/store">Showroom</a></li>
+      <li><a href="#/contact">Contact Us</a></li>
     </ul>
   </div>
 
-  <!-- HOME / HERO SECTION -->
-  <section id="home-section" class="page-section active hero">
-    <!-- Background video -->
-    <video class="hero-bg-video" id="hero-bg-video" autoplay muted loop playsinline>
+  <!-- HOME SECTION -->
+  <section id="home-section" class="page-section active">
+
+    <!-- HERO -->
+    <div class="hero">
+      <video class="hero-bg-video" autoplay muted loop playsinline poster="images/poster.jpg">
+        <source src="https://kfflzhlpgnsozvufsmtt.supabase.co/storage/v1/object/sign/background/background.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZjJkMTFkZS02MWZkLTRlOGUtOGQ5OS1jOTE0YzljYjIzMWQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYWNrZ3JvdW5kL2JhY2tncm91bmQubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4MzI4NjQ1OCwiZXhwIjoyMDk4NjQ2NDU4fQ.EQQyI9mxvAGkgpeBBTQoEbptiDC7DF1zZt_46pHHGY4" type="video/mp4">
+      </video>
+      <canvas id="hero-canvas" class="hero-bg-canvas"></canvas>
+      <div class="hero-bg-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-subtitle">HIGH QUALITY & ELEGANT</p>
+        <h1 class="hero-title">Timeless Elegance.<br><span>Refined Precision.</span></h1>
+        <p class="hero-desc">Order via : our WhatsApp - our Website or by Phone Call.<br>Just have a question ? Marhbaaa, لي ما شرا يتنزه</p>
+        <a href="#/store" class="hero-btn">Explore Showroom</a>
+      </div>
+      <div class="scroll-indicator" onclick="window.location.hash='#/store'">
+        <span>Discover More</span>
+        <div class="scroll-indicator-line"></div>
+      </div>
+    </div>
+
+    <!-- LOCATION BADGE -->
+    <div class="location-bar">
+      <div class="container">
+        <div class="location-badge" id="location-badge">
+          <i class="fas fa-map-marker-alt location-pulse"></i>
+          <span class="location-label">Our agents are now in</span>
+          <span class="location-city" id="location-city">
+            <span class="location-loading">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE SECTION -->
+    <section class="service-section">
+      <div class="container">
+        <div class="service-header">
+          <p class="section-subtitle">Our Service — خدمتنا</p>
+          <h2 class="section-title">At Your Service,<br><span style="font-style:italic;">في خدمتكم دائماً</span></h2>
+        </div>
+
+        <div class="service-grid">
+
+          <div class="service-card">
+            <div class="service-card-icon">
+              <i class="fas fa-route"></i>
+            </div>
+            <h3 class="service-card-title">Mobile Agents<br><span>وكلاء متنقلون</span></h3>
+            <p class="service-card-text">
+              Our agents travel across Morocco's finest cities — always moving, always at your service. When we're in your city, we come to <em>you</em>.
+            </p>
+            <p class="service-card-text service-card-arabic">
+              وكلاؤنا يجوبون أرقى مدن المملكة — في تنقل دائم، وفي خدمتكم دائماً. متى كنّا في مدينتكم، نحن من يأتي إليكم.
+            </p>
+          </div>
+
+          <div class="service-card service-card-featured">
+            <div class="service-card-icon">
+              <i class="fas fa-gem"></i>
+            </div>
+            <h3 class="service-card-title">Try In Your Hand & Choose<br><span>جرّب و اختر</span></h3>
+            <p class="service-card-text">
+              If our agents are in your city, just give us a call. We'll bring your selected watches to you. Enjoy a coffee, take your time, and choose the perfect timepiece—no pressure, just luxury at your doorstep.
+            <p class="service-card-text service-card-arabic">
+إذا كان وكلاؤنا في مدينتك، فما عليك سوى الاتصال بنا لحجز موعد مجاني. سنحضر إليك الساعات التي ترغب في مشاهدتها، لتأخذ وقتك في تجربتها واختيار الساعة التي تناسبك بكل راحة.</p>
+            <div class="service-location-hint">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Check our current city above — <strong id="location-city-2">loading...</strong></span>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-card-icon">
+              <i class="fas fa-comments"></i>
+            </div>
+            <h3 class="service-card-title">Just A Question ?<br><span> فقط سؤال؟ لي ما شرا يتنزه</span></h3>
+            <p class="service-card-text">
+              You don't need to buy anything to reach out. Curious about a reference? Wondering about availability? Simply want to learn more? We're here — always happy to talk watches with you.
+            </p>
+            <p class="service-card-text service-card-arabic">
+              لا حاجة للشراء كي تتواصلوا معنا. فضوليّون حول طراز معين؟ تسألون عن التوفر؟ تريدون مجرد معرفة المزيد؟ نحن هنا — يسعدنا دائماً الحديث عن الساعات معكم.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="service-cta">
+          <a href="#/contact" class="hero-btn">تواصل معنا — Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-section" id="contact-anchor">
+      <div class="container">
+        <div class="service-header">
+          <p class="section-subtitle">Reach Us — تواصلوا معنا</p>
+          <h2 class="section-title">Contact Us</h2>
+          <p style="color:var(--color-text-secondary);max-width:500px;margin:0 auto 60px auto;text-align:center;">
+            Every message is read. Every question deserves an answer.<br>
+            <span style="font-family:var(--font-heading);font-style:italic;color:var(--color-gold);">كل رسالة تُقرأ. كل سؤال يستحق جواباً.</span>
+          </p>
+        </div>
+
+        <div class="contact-grid">
+
+          <a href="https://www.instagram.com/maganti.n1?igsh=MXBsYXRtNHN4d21hZg==" target="_blank" class="contact-card">
+            <div class="contact-card-icon contact-icon-instagram">
+              <i class="fab fa-instagram"></i>
+            </div>
+            <h3 class="contact-card-title">Instagram</h3>
+            <p class="contact-card-handle">@maganti.n1</p>
+            <p class="contact-card-desc">Follow our curated collection drops, behind-the-scenes, and exclusive previews.</p>
+            <span class="contact-card-action">Follow Us <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a href="https://wa.me/212666981560" target="_blank" class="contact-card contact-card-featured">
+            <div class="contact-card-icon contact-icon-whatsapp">
+              <i class="fab fa-whatsapp"></i>
+            </div>
+            <h3 class="contact-card-title">WhatsApp</h3>
+            <p class="contact-card-handle">+212 6 66 98 15 60</p>
+            <p class="contact-card-desc">The fastest way to reach us. Orders, questions, or just a conversation — we reply instantly.</p>
+            <span class="contact-card-action">Message Us <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a href="tel:+212666981560" class="contact-card">
+            <div class="contact-card-icon contact-icon-phone">
+              <i class="fas fa-phone"></i>
+            </div>
+            <h3 class="contact-card-title">Phone Call</h3>
+            <p class="contact-card-handle">+212 6 66 98 15 60</p>
+            <p class="contact-card-desc">Prefer a real conversation? Call us directly and speak with a MAGANTi advisor.</p>
+            <span class="contact-card-action">Call Now <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </section><!-- /home-section -->
+
+  <!-- STORE SECTION -->
+  <section id="store-section" class="page-section">
+    <video class="store-bg-video" autoplay muted loop playsinline>
       <source src="background.mp4" type="video/mp4">
     </video>
-    <!-- Ambient mechanical canvas animation (drawn on top of video) -->
-    <canvas id="hero-canvas" class="hero-bg-canvas"></canvas>
-    <div class="hero-bg-overlay"></div>
-    
-    <div class="hero-content">
-      <span class="hero-subtitle">MAGANTi Haute Horlogerie</span>
-      <h1 class="hero-title">Timeless Elegance.<br><span>Refined Precision.</span></h1>
-      <p class="hero-desc">Enter the exclusive world of MAGANTi. Curating only the finest masterpieces of horological art, micro-engineering, and uncompromising luxury.</p>
-      <a href="#/store" class="hero-btn">Explore Showroom</a>
-    </div>
-    
-    <div class="scroll-indicator" onclick="window.location.hash='#/store'">
-      <span>Discover More</span>
-      <div class="scroll-indicator-line"></div>
-    </div>
-  </section>
-
-  <!-- STORE / CATALOG SECTION -->
-  <section id="store-section" class="page-section store-section">
+    <div class="store-bg-overlay"></div>
     <div class="container">
       <div class="section-header">
-        <span class="section-subtitle">MAGANTi Store</span>
+        <p class="section-subtitle">MAGANTi Store</p>
         <h2 class="section-title">The Showroom</h2>
-        <p>Browse our curated portfolio of rare timepieces and exclusive series.</p>
+        <p style="color:var(--color-text-secondary);max-width:600px;margin:0 auto;">Browse our curated portfolio of exclusive series of watches.</p>
       </div>
 
+      <button id="mobile-filter-toggle" class="mobile-filter-toggle" aria-expanded="false">
+        <span class="filter-toggle-label">
+          <i class="fas fa-sliders-h" style="margin-right:10px;"></i>
+          Filtres & Recherche
+        </span>
+        <span class="filter-toggle-right">
+          <span id="filter-count-badge">0</span>
+          <i class="fas fa-chevron-down filter-arrow"></i>
+        </span>
+      </button>
+
       <div class="store-layout">
-        <!-- Sidebar Filters -->
-        <aside class="filters-sidebar" id="filters-sidebar">
-
-          <!-- Bouton toggle visible uniquement sur mobile -->
-          <button class="mobile-filter-toggle" id="mobile-filter-toggle" aria-expanded="false">
-            <span class="filter-toggle-label">
-              <svg style="width:14px;height:14px;fill:var(--color-gold);vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24">
-                <path d="M4.25 5.61C6.27 8.2 10 13 10 13v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-6s3.72-4.8 5.74-7.39A.998.998 0 0 0 18.95 4H5.04a1 1 0 0 0-.79 1.61z"/>
-              </svg>
-              Filtres &amp; Recherche
-            </span>
-            <span class="filter-toggle-right">
-              <span id="filter-count-badge"></span>
-              <svg class="filter-arrow" style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24">
-                <path d="M7 10l5 5 5-5H7z"/>
-              </svg>
-            </span>
-          </button>
-
-          <!-- Contenu des filtres (toujours visible sur desktop, collapsible sur mobile) -->
-          <div class="filters-body" id="filters-body">
-
+        <aside class="filters-sidebar">
+          <div id="filters-body" class="filters-body">
             <div class="filter-group">
-              <h3 class="filter-title">Search</h3>
+              <h4 class="filter-title">Search</h4>
               <div class="search-wrapper">
-                <input type="text" id="search-input" class="search-input" placeholder="Rolex, Tourbillon...">
-                <span class="search-icon">
-                  <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
-                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                  </svg>
-                </span>
+                <input type="text" id="search-input" class="search-input" placeholder="Search" />
+                <i class="fas fa-search search-icon"></i>
               </div>
             </div>
-
             <div class="filter-group">
-              <h3 class="filter-title">Brands</h3>
-              <label class="checkbox-label">
-                <input type="checkbox" class="brand-filter-cb" value="ROLEX">
-                <span class="custom-checkbox"></span>
-                Rolex
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" class="brand-filter-cb" value="PATEK PHILIPPE">
-                <span class="custom-checkbox"></span>
-                Patek Philippe
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" class="brand-filter-cb" value="AUDEMARS PIGUET">
-                <span class="custom-checkbox"></span>
-                Audemars Piguet
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" class="brand-filter-cb" value="RICHARD MILLE">
-                <span class="custom-checkbox"></span>
-                Richard Mille
-              </label>
+              <h4 class="filter-title">Brands</h4>
+              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="ROLEX" /><span class="custom-checkbox"></span>Rolex</label>
+              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="TISSOT" /><span class="custom-checkbox"></span>Tissot</label>
+              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="PATEK PHILIPPE" /><span class="custom-checkbox"></span>Patek Philippe</label>
+              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="AUDEMARS PIGUET" /><span class="custom-checkbox"></span>Audemars Piguet</label>
+              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="RICHARD MILLE" /><span class="custom-checkbox"></span>Richard Mille</label>
             </div>
-
             <div class="filter-group">
-              <h3 class="filter-title">Prix Maximum</h3>
+              <h4 class="filter-title">Prix Maximum</h4>
               <div class="price-range-wrapper">
                 <div class="price-range-inputs">
-                  <span id="price-val">0 MAD</span>
-                  <span>5000 MAD</span>
+                  <span>0 MAD</span>
+                  <span id="price-val">5000 MAD</span>
                 </div>
-                <input type="range" id="price-slider" class="range-slider" min="0" max="5000" step="1" value="0">
+                <input type="range" id="price-slider" class="range-slider" min="0" max="5000" step="1" value="5000" />
               </div>
             </div>
-
             <div class="filter-group">
-              <h3 class="filter-title">Categories</h3>
+              <h4 class="filter-title">Categories</h4>
               <button class="cat-filter-btn active" data-category="all">All Collections</button>
-              <button class="cat-filter-btn" data-category="Sport">Sport</button>
-              <button class="cat-filter-btn" data-category="Dress">Dress</button>
-              <button class="cat-filter-btn" data-category="Complication">Complication</button>
+              <button class="cat-filter-btn" data-category="sport">Sport</button>
+              <button class="cat-filter-btn" data-category="dress">Dress</button>
+              <button class="cat-filter-btn" data-category="complication">Complication</button>
             </div>
-
-            <button class="clear-filters-btn" id="clear-filters-btn">Reset Filters</button>
-
-          </div><!-- /filters-body -->
+            <button id="clear-filters-btn" class="clear-filters-btn">Reset Filters</button>
+          </div>
         </aside>
-
-        <!-- Catalog list -->
-        <main class="catalog-content">
+        <div class="catalog-content">
           <div class="catalog-toolbar">
-            <span class="results-count" id="results-count">8 watches found</span>
+            <span id="results-count" class="results-count">8 watches found</span>
             <div class="sort-wrapper">
               <span>Sort By</span>
               <select id="sort-select" class="sort-select">
@@ -177,170 +265,84 @@
               </select>
             </div>
           </div>
-
-          <div class="products-grid" id="products-grid">
-            <!-- Dynamic inject by app.js -->
-          </div>
-        </main>
+          <div id="products-grid" class="products-grid"></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- WATCH DETAILS SECTION -->
-  <section id="details-section" class="page-section details-section">
+  <!-- DETAILS SECTION -->
+  <section id="details-section" class="page-section">
     <div class="container">
-      <a href="#/store" class="back-to-store">
-        <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-          <path d="M20,11H7.83l5.59-5.59L12,4L4,12l8,8l1.41-1.41L7.83,13H20V11z"/>
-        </svg>
-        Back to Showroom
-      </a>
       <div id="details-container"></div>
     </div>
   </section>
 
-  <!-- SHOPPING SELECTION BAG (CART) DRAWER -->
-  <div class="cart-overlay" id="cart-overlay">
+  <!-- CART OVERLAY -->
+  <div id="cart-overlay" class="cart-overlay">
     <div class="cart-drawer">
       <div class="cart-header">
         <h3>Selected Masterpieces</h3>
-        <button class="cart-close-btn" aria-label="Close Selection Drawer">
-          <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
-          </svg>
-        </button>
+        <button class="cart-close-btn"><i class="fas fa-times"></i></button>
       </div>
-      <div class="cart-items-list" id="cart-items-list"></div>
+      <div id="cart-items-list" class="cart-items-list"></div>
       <div class="cart-footer">
-        <div class="cart-summary-row">
-          <span>Acquisition Subtotal</span>
-          <span id="cart-subtotal-val">0 MAD</span>
-        </div>
-        <div class="cart-summary-row">
-          <span>Secured Shipping</span>
-          <span class="gold-text">COMPLIMENTARY</span>
-        </div>
-        <div class="cart-summary-row total">
-          <span>Est. Value Total</span>
-          <span id="cart-total-val">0 MAD</span>
-        </div>
-        <button class="cart-checkout-btn">Proceed to Acquisition Form</button>
+        <div class="cart-summary-row"><span>Acquisition Subtotal</span><span id="cart-subtotal-val">0 MAD</span></div>
+        <div class="cart-summary-row"><span>Shipping</span><span>Free</span></div>
+        <div class="cart-summary-row total"><span>Est. Value Total</span><span id="cart-total-val">0 MAD</span></div>
+        <button class="cart-checkout-btn">Confirm Order Via WhatsApp</button>
       </div>
     </div>
   </div>
 
   <!-- CHECKOUT MODAL -->
-  <div class="modal-overlay" id="checkout-modal">
+  <div id="checkout-modal" class="modal-overlay">
     <div class="modal-box">
-      <button class="modal-close-btn" aria-label="Close Form">
-        <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
-        </svg>
-      </button>
-      <h3 class="modal-title">Secure Acquisition</h3>
-      <p class="modal-subtitle" id="modal-subtitle">Submit your details to align with a MAGANTi representative.</p>
+      <button class="modal-close-btn"><i class="fas fa-times"></i></button>
+      <h2 class="modal-title" id="modal-title-text">Secure Acquisition</h2>
+      <p id="modal-subtitle" class="modal-subtitle">Submit your details to align with a MAGANTi representative.</p>
       <form id="checkout-form">
-        <div class="form-group">
-          <label class="form-label" for="client-name">Full Name</label>
-          <input type="text" id="client-name" class="form-input" required placeholder="Lord / Lady Harrison">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="client-email">Secured Email Address</label>
-          <input type="email" id="client-email" class="form-input" required placeholder="harrison@maganti.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="client-phone">Direct Line</label>
-          <input type="tel" id="client-phone" class="form-input" required placeholder="+1 (555) 019-2834">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="client-message">Special Handling / Directives</label>
-          <textarea id="client-message" class="form-input" rows="3" placeholder="Deliver to private aviation terminal 4, custom engravings..."></textarea>
-        </div>
-        <button type="submit" class="submit-btn">SUBMIT REQUEST</button>
+        <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="form-name" class="form-input" placeholder="Your Full Name" required /></div>
+        <div class="form-group"><label class="form-label" id="form-message-label">Address</label><textarea id="form-message" class="form-input" rows="3" placeholder="Please Fill Your Delivery Address..." required></textarea></div>
+        <button type="submit" class="submit-btn">SEND VIA WHATSAPP</button>
       </form>
     </div>
   </div>
 
   <!-- SUCCESS MODAL -->
-  <div class="modal-overlay" id="success-modal">
-    <div class="modal-box success-content">
-      <button class="modal-close-btn" aria-label="Close Form">
-        <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
-        </svg>
-      </button>
-      <div class="success-icon">
-        <svg style="width: 60px; height: 60px; fill: var(--color-gold);" viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-        </svg>
+  <div id="success-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="success-content">
+        <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+        <h2 class="success-title">Request Transmitted</h2>
+        <p class="success-msg">Your luxury acquisition request has been securely routed. A MAGANTi private concierge advisor will contact you within the hour.</p>
+        <button class="submit-btn modal-close-btn-static">RETURN TO SHOWROOM</button>
       </div>
-      <h3 class="success-title">Request Transmitted</h3>
-      <p class="success-msg">Your luxury acquisition request has been securely routed. A MAGANTi private concierge advisor will contact you within the hour.</p>
-      <button class="submit-btn modal-close-btn-static">RETURN TO SHOWROOM</button>
     </div>
   </div>
 
-  <!-- TOAST CONTAINER -->
-  <div class="toast-container" id="toast-container"></div>
+
+  <!-- TOAST -->
+  <div id="toast-container" class="toast-container"></div>
 
   <!-- FOOTER -->
   <footer>
-    <div class="container footer-grid">
-      <div class="footer-col">
-        <h4 class="logo-text">MAGANT<span>i</span></h4>
-        <p>MAGANTi is a global purveyor of haute horlogerie, uniting historical luxury manufacture with the digital collectors' era.</p>
-        <div class="social-links">
-          <a href="#" class="social-link" aria-label="Instagram">
-            <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
-            </svg>
-          </a>
-          <a href="#" class="social-link" aria-label="X">
-            <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </a>
-          <a href="#" class="social-link" aria-label="YouTube">
-            <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-              <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-          </a>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>MAGANTi</h4>
+          <p>High Quality - Elegant - Best Prices</p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/maganti.n1?igsh=MXBsYXRtNHN4d21hZg==" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/212666981560" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+          <p style="margin-top:12px; font-size:13px; color:var(--color-text-secondary);">
+            <i class="fas fa-phone" style="color:var(--color-gold); margin-right:6px;"></i>+212 6 66 98 15 60
+          </p>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Showroom</h4>
-        <ul>
-          <li><a href="#/store">Sport Series</a></li>
-          <li><a href="#/store">Dress Series</a></li>
-          <li><a href="#/store">High Complications</a></li>
-          <li><a href="#/store">Exclusives</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Concierge</h4>
-        <ul>
-          <li><a href="#" onclick="openContactModal('Acquisition Assistance'); return false;">Direct Acquisition</a></li>
-          <li><a href="#" onclick="openContactModal('Bespoke Horology Commission'); return false;">Bespoke Inquiries</a></li>
-          <li><a href="#" onclick="openContactModal('Watch Care Appointment'); return false;">Horological Care</a></li>
-          <li><a href="#" onclick="openContactModal('General Inquiry'); return false;">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>House of MAGANTi</h4>
-        <ul>
-          <li><a href="#/home">Heritage & Story</a></li>
-          <li><a href="#/home">Precision Winding</a></li>
-          <li><a href="#/home">Boutique Locations</a></li>
-          <li><a href="#/home">Careers</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <p>&copy; 2026 MAGANTi. All rights reserved. Registered trademark of Haute Horlogerie SA.</p>
-      <div class="footer-terms">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Secured Protocols</a>
+      <div class="footer-bottom">
+        <p>© 2026 MAGANTi. All rights reserved.</p>
       </div>
     </div>
   </footer>
