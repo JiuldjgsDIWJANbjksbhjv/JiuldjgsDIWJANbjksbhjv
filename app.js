@@ -69,8 +69,6 @@ async function loadWatchesFromSupabase() {
       category:        r.category,
       movement:        r.movement,
       caseMaterial:    r.case_material,
-      waterResistance: r.water_resistance,
-      powerReserve:    r.power_reserve,
       diameter:        r.diameter,
       inStock:         r.in_stock,
       badge:           r.badge,
@@ -529,15 +527,12 @@ function renderDetails(watch) {
         </div>
         <h3 class="specs-title">Technical Specifications</h3>
         <div class="specs-table">
-          <div class="specs-row"><span class="specs-label">Reference</span><span class="specs-value">${watch.id.toUpperCase().substring(0,10)}</span></div>
           <div class="specs-row"><span class="specs-label">Brand</span><span class="specs-value">${watch.brand}</span></div>
-          <div class="specs-row"><span class="specs-label">Collection</span><span class="specs-value">${watch.category} Collection</span></div>
+          <div class="specs-row"><span class="specs-label">Quality</span><span class="specs-value">${watch.category}</span></div>
           <div class="specs-row"><span class="specs-label">Movement</span><span class="specs-value">${watch.movement || "—"}</span></div>
           <div class="specs-row"><span class="specs-label">Case Material</span><span class="specs-value">${watch.caseMaterial || "—"}</span></div>
-          <div class="specs-row"><span class="specs-label">Water Resistance</span><span class="specs-value">${watch.waterResistance || "—"}</span></div>
-          <div class="specs-row"><span class="specs-label">Power Reserve</span><span class="specs-value">${watch.powerReserve || "—"}</span></div>
         </div>
-      </div>
+        </div>
     </div>
   `;
 
