@@ -62,7 +62,7 @@ async function loadWatchesFromSupabase() {
     const rows = await res.json();
 
     WATCHES_DATA = rows.map(r => ({
-      id:              r.id,
+      id:              String(r.id),
       name:            r.name,
       brand:           r.brand,
       price:           r.price,
@@ -134,7 +134,7 @@ function handleRouting() {
 
   } else if (hash.startsWith("#/watch/")) {
     const watchId = hash.split("/")[2];
-    const watch   = WATCHES_DATA.find(w => w.id === watchId);
+    const watch   = WATCHES_DATA.find(w => String(w.id) === watchId);
     if (watch) {
       showSection(mainDetailsSection);
       renderDetails(watch);
