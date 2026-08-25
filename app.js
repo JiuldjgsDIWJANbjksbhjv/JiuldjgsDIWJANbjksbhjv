@@ -332,12 +332,12 @@ function setupEventListeners() {
     if (mode === "reserve") {
       // MODE RESERVE — montre en rupture de stock, réservation automatique
       msg = encodeURIComponent(
-        `========= RESERVATION ========= \n\nHello Dear MAGANTi,\n\nI'm *${nameVal.toUpperCase()}* and I would like to *RESERVE* the following piece, currently out of stock : \n\n - *${watchName}* \n\nPlease *confirm my reservation with me* and notify me automatically once it's back in stock.${messageVal ? `\n\nNote: *${messageVal}*` : ""}`
+        `========= RESERVATION ========= \n\nHello Dear LhajSwisri,\n\nI'm *${nameVal.toUpperCase()}* and I would like to *RESERVE* the following piece, currently out of stock : \n\n - *${watchName}* \n\nPlease *confirm my reservation with me* and notify me automatically once it's back in stock.${messageVal ? `\n\nNote: *${messageVal}*` : ""}`
       );
     } else if (mode === "inquiry") {
       // MODE INQUIRY — depuis la page détail d'une montre (nom + message)
       msg = encodeURIComponent(
-        `========= INQUIRY ========= \n\nHello Dear MAGANTi,\n\nI'm *${nameVal.toUpperCase()}* and asking for the : \n\n - *${watchName}* \n\n and my question is: *${messageVal}*`
+        `========= INQUIRY ========= \n\nHello Dear LhajSwisri,\n\nI'm *${nameVal.toUpperCase()}* and asking for the : \n\n - *${watchName}* \n\n and my question is: *${messageVal}*`
       );
     } else {
       // MODE CART — confirmation de commande (nom + adresse)
@@ -345,7 +345,7 @@ function setupEventListeners() {
         `• ${item.brand} ${item.name} (x${item.quantity}) — ${(item.price * item.quantity).toLocaleString()} MAD`
       ).join("\n");
       msg = encodeURIComponent(
-        `=========  ORDER  ========= \n\nHello Dear MAGANTi,\n\nI'm interested in :\n\n${watchList}\n\nCan we confirm the order ?\n\n- Name: *${nameVal.toUpperCase()}*\n- Address : *${messageVal.toUpperCase()}*`
+        `=========  ORDER  ========= \n\nHello Dear LhajSwisri,\n\nI'm interested in :\n\n${watchList}\n\nCan we confirm the order ?\n\n- Name: *${nameVal.toUpperCase()}*\n- Address : *${messageVal.toUpperCase()}*`
       );
     }
 
