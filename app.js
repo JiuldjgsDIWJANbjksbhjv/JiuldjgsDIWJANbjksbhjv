@@ -20,7 +20,7 @@ let activeFilters = {
   search:   "",
   brands:   [],
   maxPrice: 5000,
-  category: "all"
+  category: "not-normal"
 };
 let currentSort = "featured";
 let heroCanvasAnimId = null;
@@ -254,9 +254,8 @@ function setupEventListeners() {
   // Category buttons
   document.querySelectorAll(".cat-filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".cat-filter-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      activeFilters.category = btn.getAttribute("data-category");
+      const isActive = btn.classList.toggle("active");
+      activeFilters.category = isActive ? btn.getAttribute("data-category") : "not-normal";
       renderStore();
     });
   });
@@ -266,7 +265,7 @@ function setupEventListeners() {
     activeFilters.search   = "";
     activeFilters.brands   = [];
     activeFilters.maxPrice = 5000;
-    activeFilters.category = "all";
+    activeFilters.category = "not-normal";
     if (searchInput) searchInput.value = "";
     if (priceSlider) priceSlider.value = 5000;
     if (priceVal)    priceVal.textContent = "5 000 MAD";
@@ -408,8 +407,9 @@ function renderStore() {
       (watch.description || "").toLowerCase().includes(activeFilters.search);
     const matchesBrand  = activeFilters.brands.length === 0 || activeFilters.brands.includes(watch.brand);
     const matchesPrice  = activeFilters.maxPrice === 5000 || watch.price <= activeFilters.maxPrice;
-    const matchesCat    = activeFilters.category === "all" ||
-      (watch.category || "").toLowerCase() === activeFilters.category.toLowerCase();
+    const matchesCat    = activeFilters.category === "not-normal"
+      ? (watch.category || "").toLowerCase() !== "normal"
+      : (watch.category || "").toLowerCase() === activeFilters.category.toLowerCase();
     return matchesSearch && matchesBrand && matchesPrice && matchesCat;
   });
 
@@ -949,7 +949,7 @@ function initHeroCanvas() {
     const active =
       (activeFilters.search ? 1 : 0) +
       activeFilters.brands.length +
-      (activeFilters.category !== "all" ? 1 : 0);
+      (activeFilters.category !== "not-normal" ? 1 : 0);
     if (active > 0) {
       badge.textContent = active;
       badge.classList.add("visible");
