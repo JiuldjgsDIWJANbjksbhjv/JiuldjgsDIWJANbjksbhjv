@@ -20,7 +20,7 @@ let activeFilters = {
   search:   "",
   brands:   [],
   maxPrice: 5000,
-  category: "not-normal"
+  category: []
 };
 let currentSort = "featured";
 let heroCanvasAnimId = null;
@@ -70,6 +70,7 @@ async function loadWatchesFromSupabase() {
       movement:        r.movement,
       caseMaterial:    r.case_material,
       diameter:        r.diameter,
+      box:             r.box,
       inStock:         r.in_stock,
       badge:           r.badge,
       description:     r.description || "",
@@ -81,6 +82,31 @@ async function loadWatchesFromSupabase() {
     WATCHES_DATA = [];
     showToast("Erreur de chargement des données.");
   }
+}
+
+/* ==========================================================================
+   BRAND FILTERS — générés depuis les valeurs distinctes de la colonne
+   "brand" de la table Supabase (aucune marque codée en dur, aucun doublon)
+   ========================================================================== */
+function renderBrandFilters() {
+  const container = document.getElementById("brand-filters-list");
+  if (!container) return;
+
+  const brands = [...new Set(
+    WATCHES_DATA.map(w => (w.brand || "").trim()).filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b));
+
+  if (brands.length === 0) {
+    container.innerHTML = `<p class="filter-empty-msg">No brands available.</p>`;
+    return;
+  }
+
+  container.innerHTML = brands.map(brand => `
+    <label class="checkbox-label">
+      <input type="checkbox" class="brand-filter-cb" value="${brand}" />
+      <span class="custom-checkbox"></span>${brand}
+    </label>
+  `).join("");
 }
 
 /* ==========================================================================
@@ -199,6 +225,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // Load data from Supabase
   await loadWatchesFromSupabase();
+  renderBrandFilters();
   loadAgentLocation();
 
   handleRouting();
@@ -222,17 +249,16 @@ function setupEventListeners() {
     renderStore();
   });
 
-  // Brand checkboxes
-  document.querySelectorAll(".brand-filter-cb").forEach(cb => {
-    cb.addEventListener("change", e => {
-      const brand = e.target.value;
-      if (e.target.checked) {
-        if (!activeFilters.brands.includes(brand)) activeFilters.brands.push(brand);
-      } else {
-        activeFilters.brands = activeFilters.brands.filter(b => b !== brand);
-      }
-      renderStore();
-    });
+  // Brand checkboxes — générés dynamiquement depuis Supabase, on délègue l'événement
+  document.getElementById("brand-filters-list")?.addEventListener("change", e => {
+    if (!e.target.classList.contains("brand-filter-cb")) return;
+    const brand = e.target.value;
+    if (e.target.checked) {
+      if (!activeFilters.brands.includes(brand)) activeFilters.brands.push(brand);
+    } else {
+      activeFilters.brands = activeFilters.brands.filter(b => b !== brand);
+    }
+    renderStore();
   });
 
   // Price slider
@@ -249,11 +275,16 @@ function setupEventListeners() {
     renderStore();
   });
 
-  // Category buttons
+  // Category buttons — multi-sélection, comme les marques (aucune sélection = tout afficher)
   document.querySelectorAll(".cat-filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const isActive = btn.classList.toggle("active");
-      activeFilters.category = isActive ? btn.getAttribute("data-category") : "not-normal";
+      const cat = btn.getAttribute("data-category");
+      if (isActive) {
+        if (!activeFilters.category.includes(cat)) activeFilters.category.push(cat);
+      } else {
+        activeFilters.category = activeFilters.category.filter(c => c !== cat);
+      }
       renderStore();
     });
   });
@@ -263,14 +294,12 @@ function setupEventListeners() {
     activeFilters.search   = "";
     activeFilters.brands   = [];
     activeFilters.maxPrice = 5000;
-    activeFilters.category = "not-normal";
+    activeFilters.category = [];
     if (searchInput) searchInput.value = "";
     if (priceSlider) priceSlider.value = 5000;
     if (priceVal)    priceVal.textContent = "5 000 MAD";
     document.querySelectorAll(".brand-filter-cb").forEach(cb => cb.checked = false);
-    document.querySelectorAll(".cat-filter-btn").forEach(b => {
-      b.classList.toggle("active", b.getAttribute("data-category") === "all");
-    });
+    document.querySelectorAll(".cat-filter-btn").forEach(b => b.classList.remove("active"));
     renderStore();
   });
 
@@ -405,9 +434,10 @@ function renderStore() {
       (watch.description || "").toLowerCase().includes(activeFilters.search);
     const matchesBrand  = activeFilters.brands.length === 0 || activeFilters.brands.includes(watch.brand);
     const matchesPrice  = activeFilters.maxPrice === 5000 || watch.price <= activeFilters.maxPrice;
-    const matchesCat    = activeFilters.category === "not-normal"
-      ? (watch.category || "").toLowerCase() !== "normal"
-      : (watch.category || "").toLowerCase() === activeFilters.category.toLowerCase();
+    const watchCat      = (watch.category || "").toLowerCase();
+    const matchesCat    = activeFilters.category.length === 0 || activeFilters.category.some(cat =>
+      cat === "normal" ? watchCat === "normal" : watchCat !== "normal"
+    );
     return matchesSearch && matchesBrand && matchesPrice && matchesCat;
   });
 
@@ -415,6 +445,12 @@ function renderStore() {
   else if (currentSort === "price-high") filtered.sort((a, b) => b.price - a.price);
   else if (currentSort === "brand-az")   filtered.sort((a, b) => a.brand.localeCompare(b.brand));
   else filtered.sort((a, b) => b.price - a.price);
+
+  // Groupement : les pièces Master Quality (AAA+ / Original) s'affichent
+  // toujours en premier, les pièces Normal en dessous — sans casser le tri choisi
+  const masterGroup = filtered.filter(w => (w.category || "").toLowerCase() !== "normal");
+  const normalGroup  = filtered.filter(w => (w.category || "").toLowerCase() === "normal");
+  filtered = [...masterGroup, ...normalGroup];
 
   if (resultsCount) resultsCount.textContent = `${filtered.length} watch${filtered.length !== 1 ? "es" : ""} found`;
 
@@ -426,7 +462,17 @@ function renderStore() {
     return;
   }
 
-  productsGrid.innerHTML = filtered.map(watch => `
+  const showDivider = masterGroup.length > 0 && normalGroup.length > 0;
+  let dividerInserted = false;
+
+  productsGrid.innerHTML = filtered.map(watch => {
+    const isNormal = (watch.category || "").toLowerCase() === "normal";
+    let dividerHTML = "";
+    if (showDivider && isNormal && !dividerInserted) {
+      dividerHTML = `<div class="quality-divider"><span>Normal Quality</span></div>`;
+      dividerInserted = true;
+    }
+    return `${dividerHTML}
     <div class="watch-card">
       ${watch.badge ? `<span class="watch-card-badge">${watch.badge}</span>` : ""}
       <span class="stock-badge ${watch.inStock ? "in-stock" : "out-of-stock"}">${watch.inStock ? "En Stock" : "Rupture"}</span>
@@ -445,7 +491,8 @@ function renderStore() {
         </div>
       </div>
     </div>
-  `).join("");
+  `;
+  }).join("");
 }
 
 /* ==========================================================================
@@ -531,6 +578,7 @@ function renderDetails(watch) {
           <div class="specs-row"><span class="specs-label">Quality</span><span class="specs-value">${watch.category}</span></div>
           <div class="specs-row"><span class="specs-label">Movement</span><span class="specs-value">${watch.movement || "—"}</span></div>
           <div class="specs-row"><span class="specs-label">Case Material</span><span class="specs-value">${watch.caseMaterial || "—"}</span></div>
+          <div class="specs-row"><span class="specs-label">Box</span><span class="specs-value">${watch.box || "—"}</span></div>
         </div>
         </div>
     </div>
@@ -944,7 +992,7 @@ function initHeroCanvas() {
     const active =
       (activeFilters.search ? 1 : 0) +
       activeFilters.brands.length +
-      (activeFilters.category !== "not-normal" ? 1 : 0);
+      activeFilters.category.length;
     if (active > 0) {
       badge.textContent = active;
       badge.classList.add("visible");
