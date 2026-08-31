@@ -435,9 +435,8 @@ function renderStore() {
     const matchesBrand  = activeFilters.brands.length === 0 || activeFilters.brands.includes(watch.brand);
     const matchesPrice  = activeFilters.maxPrice === 5000 || watch.price <= activeFilters.maxPrice;
     const watchCat      = (watch.category || "").toLowerCase();
-    const matchesCat    = activeFilters.category.length === 0 || activeFilters.category.some(cat =>
-      cat === "normal" ? watchCat === "normal" : watchCat !== "normal"
-    );
+    const watchCat      = (watch.category || "").toLowerCase();
+    const matchesCat    = activeFilters.category.length === 0 || activeFilters.category.some(cat => cat === watchCat);
     return matchesSearch && matchesBrand && matchesPrice && matchesCat;
   });
 
