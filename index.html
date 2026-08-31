@@ -15,7 +15,7 @@
   <header>
     <div class="container nav-container">
       <a href="#/home" class="logo">
-        <img src="icon.jpg" alt="MAGANTi" class="logo-icon" />
+        <img src="icon.jpg" alt="LhajSwisri" class="logo-icon" />
       </a>
       <nav>
         <ul>
@@ -227,11 +227,9 @@
             </div>
             <div class="filter-group">
               <h4 class="filter-title">Brands</h4>
-              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="ROLEX" /><span class="custom-checkbox"></span>Rolex</label>
-              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="TISSOT" /><span class="custom-checkbox"></span>Tissot</label>
-              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="PATEK PHILIPPE" /><span class="custom-checkbox"></span>Patek Philippe</label>
-              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="AUDEMARS PIGUET" /><span class="custom-checkbox"></span>Audemars Piguet</label>
-              <label class="checkbox-label"><input type="checkbox" class="brand-filter-cb" value="RICHARD MILLE" /><span class="custom-checkbox"></span>Richard Mille</label>
+              <div id="brand-filters-list" class="brand-filters-list">
+                <p class="filter-empty-msg">Loading brands...</p>
+              </div>
             </div>
             <div class="filter-group">
               <h4 class="filter-title">Prix Maximum</h4>
@@ -246,6 +244,7 @@
             <div class="filter-group">
               <h4 class="filter-title">Quality</h4>
               <button class="cat-filter-btn" data-category="normal">Normal</button>
+              <button class="cat-filter-btn" data-category="master">AAA+ &amp; Original</button>
             </div>
             <button id="clear-filters-btn" class="clear-filters-btn">Reset Filters</button>
           </div>
