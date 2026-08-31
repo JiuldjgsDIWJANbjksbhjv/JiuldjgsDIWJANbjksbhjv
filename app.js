@@ -378,7 +378,7 @@ function setupEventListeners() {
       );
     }
 
-    window.open(`https://wa.me/212666981560?text=${msg}`, "_blank");
+    window.location.href = `https://wa.me/212666981560?text=${msg}`;
 
     if (checkoutModal) { delete checkoutModal.dataset.watchName; delete checkoutModal.dataset.mode; }
     checkoutModal?.classList.remove("open");
@@ -568,7 +568,7 @@ function renderDetails(watch) {
             ? `<button class="btn-primary" onclick="addToCart('${watch.id}')">AJOUTER À LA SÉLECTION</button>`
             : `<button class="btn-primary btn-reserve" onclick="openReserveModal('${watch.id}')"><i class="fas fa-clock"></i> RÉSERVER</button>`
           }
-          <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">Poser Une Question</button>
+          <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">FAIRE UNE DEMANDE</button>
         </div>
         <h3 class="specs-title">Spécifications Techniques</h3>
         <div class="specs-table">
