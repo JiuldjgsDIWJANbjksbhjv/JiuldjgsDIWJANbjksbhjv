@@ -611,6 +611,36 @@ nav ul li.active a::after {
   background: rgba(197, 168, 128, 0.08);
 }
 
+/* Quality section divider inside the store grid */
+.quality-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 10px 0 4px 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.quality-divider::before,
+.quality-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* Dynamic brand list placeholder */
+.filter-empty-msg {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 4px 0;
+}
+
 /* Clear Filters Button */
 .clear-filters-btn {
   width: 100%;
