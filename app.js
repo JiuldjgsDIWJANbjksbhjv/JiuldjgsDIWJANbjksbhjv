@@ -239,6 +239,19 @@ window.addEventListener("scroll", () => {
 });
 
 /* ==========================================================================
+   CHAT WIDGET — masque la bulle de chat Thunderbolt pendant que le panier
+   ou une fenêtre de commande est ouverte (elle flotte en bas à droite et
+   peut sinon se superposer aux boutons du panier/checkout)
+   ========================================================================== */
+function syncChatWidgetVisibility() {
+  const anyOverlayOpen =
+    cartOverlay?.classList.contains("open") ||
+    checkoutModal?.classList.contains("open") ||
+    successModal?.classList.contains("open");
+  document.body.classList.toggle("hide-chat-widget", !!anyOverlayOpen);
+}
+
+/* ==========================================================================
    EVENT LISTENERS
    ========================================================================== */
 function setupEventListeners() {
@@ -308,15 +321,18 @@ function setupEventListeners() {
     el.addEventListener("click", e => {
       e.preventDefault();
       cartOverlay.classList.add("open");
+      syncChatWidgetVisibility();
     });
   });
 
   // Cart close
   document.querySelector(".cart-close-btn")?.addEventListener("click", () => {
     cartOverlay.classList.remove("open");
+    syncChatWidgetVisibility();
   });
   cartOverlay?.addEventListener("click", e => {
     if (e.target === cartOverlay) cartOverlay.classList.remove("open");
+    syncChatWidgetVisibility();
   });
 
   // Cart checkout → open modal
@@ -329,6 +345,7 @@ function setupEventListeners() {
       checkoutModal.classList.add("open");
     }
     setFormMode("order");
+    syncChatWidgetVisibility();
   });
 
   // Modal close buttons
@@ -336,14 +353,17 @@ function setupEventListeners() {
     btn.addEventListener("click", () => {
       checkoutModal?.classList.remove("open");
       successModal?.classList.remove("open");
+      syncChatWidgetVisibility();
     });
   });
   document.querySelector(".modal-close-btn-static")?.addEventListener("click", () => {
     successModal?.classList.remove("open");
+    syncChatWidgetVisibility();
   });
   [checkoutModal, successModal].forEach(modal => {
     modal?.addEventListener("click", e => {
       if (e.target === modal) modal.classList.remove("open");
+      syncChatWidgetVisibility();
     });
   });
 
@@ -378,12 +398,13 @@ function setupEventListeners() {
       );
     }
 
-    window.open(`https://wa.me/212666981560?text=${msg}`, "_blank");
+    window.location.href = `https://wa.me/212666981560?text=${msg}`;
 
     if (checkoutModal) { delete checkoutModal.dataset.watchName; delete checkoutModal.dataset.mode; }
     checkoutModal?.classList.remove("open");
     successModal?.classList.add("open");
     document.getElementById("checkout-form")?.reset();
+    syncChatWidgetVisibility();
 
     if (mode === "order") {
       cart = [];
@@ -568,7 +589,7 @@ function renderDetails(watch) {
             ? `<button class="btn-primary" onclick="addToCart('${watch.id}')">AJOUTER À LA SÉLECTION</button>`
             : `<button class="btn-primary btn-reserve" onclick="openReserveModal('${watch.id}')"><i class="fas fa-clock"></i> RÉSERVER</button>`
           }
-          <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">Poser Une Question</button>
+          <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">FAIRE UNE DEMANDE</button>
         </div>
         <h3 class="specs-title">Spécifications Techniques</h3>
         <div class="specs-table">
@@ -751,6 +772,7 @@ window.openContactModal = function(pieceName) {
     checkoutModal.classList.add("open");
   }
   setFormMode("inquiry");
+  syncChatWidgetVisibility();
 };
 
 /* ==========================================================================
@@ -771,6 +793,7 @@ window.openReserveModal = function(watchId) {
     checkoutModal.classList.add("open");
   }
   setFormMode("reserve");
+  syncChatWidgetVisibility();
 };
 
 /* ==========================================================================
@@ -789,6 +812,7 @@ window.addToCart = function(watchId) {
   updateCartUI();
   showToast(`${watch.brand} ${watch.name} ajouté à la sélection`);
   if (cartOverlay) cartOverlay.classList.add("open");
+  syncChatWidgetVisibility();
 };
 
 window.removeFromCart = function(watchId) {
