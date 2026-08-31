@@ -568,7 +568,7 @@ function renderDetails(watch) {
             ? `<button class="btn-primary" onclick="addToCart('${watch.id}')">AJOUTER À LA SÉLECTION</button>`
             : `<button class="btn-primary btn-reserve" onclick="openReserveModal('${watch.id}')"><i class="fas fa-clock"></i> RÉSERVER</button>`
           }
-          <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">Poser Une QuestionE</button>
+          <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">Poser Une Question</button>
         </div>
         <h3 class="specs-title">Spécifications Techniques</h3>
         <div class="specs-table">
