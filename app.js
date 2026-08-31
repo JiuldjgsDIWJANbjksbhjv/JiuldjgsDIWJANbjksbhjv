@@ -97,7 +97,7 @@ function renderBrandFilters() {
   )].sort((a, b) => a.localeCompare(b));
 
   if (brands.length === 0) {
-    container.innerHTML = `<p class="filter-empty-msg">No brands available.</p>`;
+    container.innerHTML = `<p class="filter-empty-msg">Aucune marque disponible.</p>`;
     return;
   }
 
@@ -321,7 +321,7 @@ function setupEventListeners() {
 
   // Cart checkout → open modal
   document.querySelector(".cart-checkout-btn")?.addEventListener("click", () => {
-    if (cart.length === 0) { showToast("Your selection is empty"); return; }
+    if (cart.length === 0) { showToast("Votre sélection est vide"); return; }
     cartOverlay.classList.remove("open");
     if (checkoutModal) {
       delete checkoutModal.dataset.watchName;
@@ -361,12 +361,12 @@ function setupEventListeners() {
     if (mode === "reserve") {
       // MODE RESERVE — montre en rupture de stock, réservation automatique
       msg = encodeURIComponent(
-        `========= RESERVATION ========= \n\nHello Dear LhajSwisri,\n\nI'm *${nameVal.toUpperCase()}* and I would like to *RESERVE* the following piece, currently out of stock : \n\n - *${watchName}* \n\nPlease *confirm my reservation with me* and notify me automatically once it's back in stock.${messageVal ? `\n\nNote: *${messageVal}*` : ""}`
+        `========= RÉSERVATION ========= \n\nBonjour cher LhajSwisri,\n\nJe suis *${nameVal.toUpperCase()}* et je souhaiterais *RÉSERVER* la pièce suivante, actuellement en rupture de stock : \n\n - *${watchName}* \n\nMerci de *confirmer ma réservation* et de me prévenir automatiquement dès qu'elle sera de nouveau en stock.${messageVal ? `\n\nNote : *${messageVal}*` : ""}`
       );
     } else if (mode === "inquiry") {
       // MODE INQUIRY — depuis la page détail d'une montre (nom + message)
       msg = encodeURIComponent(
-        `========= INQUIRY ========= \n\nHello Dear LhajSwisri,\n\nI'm *${nameVal.toUpperCase()}* and asking for the : \n\n - *${watchName}* \n\n and my question is: *${messageVal}*`
+        `========= DEMANDE ========= \n\nBonjour cher LhajSwisri,\n\nJe suis *${nameVal.toUpperCase()}* et je me renseigne au sujet de : \n\n - *${watchName}* \n\n et ma question est : *${messageVal}*`
       );
     } else {
       // MODE CART — confirmation de commande (nom + adresse)
@@ -374,7 +374,7 @@ function setupEventListeners() {
         `• ${item.brand} ${item.name} (x${item.quantity}) — ${(item.price * item.quantity).toLocaleString()} MAD`
       ).join("\n");
       msg = encodeURIComponent(
-        `=========  ORDER  ========= \n\nHello Dear LhajSwisri,\n\nI'm interested in :\n\n${watchList}\n\nCan we confirm the order ?\n\n- Name: *${nameVal.toUpperCase()}*\n- Address : *${messageVal.toUpperCase()}*`
+        `=========  COMMANDE  ========= \n\nBonjour cher LhajSwisri,\n\nJe suis intéressé(e) par :\n\n${watchList}\n\nPouvons-nous confirmer la commande ?\n\n- Nom : *${nameVal.toUpperCase()}*\n- Adresse : *${messageVal.toUpperCase()}*`
       );
     }
 
@@ -404,20 +404,20 @@ function setFormMode(mode) {
   if (!label || !input) return;
 
   if (mode === "inquiry") {
-    label.textContent = "Your Message";
-    input.placeholder = "Type your question here...";
+    label.textContent = "Votre Message";
+    input.placeholder = "Tapez votre question ici...";
     input.required = true;
-    if (title) title.textContent = "Send an Inquiry";
+    if (title) title.textContent = "Envoyer une Demande";
   } else if (mode === "reserve") {
-    label.textContent = "Note (optional)";
-    input.placeholder = "Any additional note...";
+    label.textContent = "Note (optionnelle)";
+    input.placeholder = "Une note additionnelle...";
     input.required = false;
-    if (title) title.textContent = "Reserve This Piece";
+    if (title) title.textContent = "Réserver Cette Pièce";
   } else {
-    label.textContent = "Address";
-    input.placeholder = "Please Fill Your Delivery Address...";
+    label.textContent = "Adresse";
+    input.placeholder = "Veuillez indiquer votre adresse de livraison...";
     input.required = true;
-    if (title) title.textContent = "Secure Acquisition";
+    if (title) title.textContent = "Acquisition Sécurisée";
   }
 }
 
@@ -450,12 +450,12 @@ function renderStore() {
   const normalGroup  = filtered.filter(w => (w.category || "").toLowerCase() === "normal");
   filtered = [...masterGroup, ...normalGroup];
 
-  if (resultsCount) resultsCount.textContent = `${filtered.length} watch${filtered.length !== 1 ? "es" : ""} found`;
+  if (resultsCount) resultsCount.textContent = `${filtered.length} montre${filtered.length !== 1 ? "s" : ""} trouvée${filtered.length !== 1 ? "s" : ""}`;
 
   if (filtered.length === 0) {
     productsGrid.innerHTML = `<div class="no-results">
       <i class="fas fa-search"></i>
-      <p>No luxury pieces match your current selection.</p>
+      <p>Aucune pièce de luxe ne correspond à votre sélection actuelle.</p>
     </div>`;
     return;
   }
@@ -467,7 +467,7 @@ function renderStore() {
     const isNormal = (watch.category || "").toLowerCase() === "normal";
     let dividerHTML = "";
     if (showDivider && isNormal && !dividerInserted) {
-      dividerHTML = `<div class="quality-divider"><span>Normal Quality</span></div>`;
+      dividerHTML = `<div class="quality-divider"><span>Qualité Normale</span></div>`;
       dividerInserted = true;
     }
     return `${dividerHTML}
@@ -483,8 +483,8 @@ function renderStore() {
         <div class="watch-card-meta">
           <span class="watch-card-price">${watch.price.toLocaleString()} MAD</span>
           ${watch.inStock
-            ? `<button class="watch-card-btn" onclick="addToCart('${watch.id}')">+ INQUIRE</button>`
-            : `<button class="watch-card-btn watch-card-btn-reserve" onclick="openReserveModal('${watch.id}')"><i class="fas fa-clock"></i> RESERVE</button>`
+            ? `<button class="watch-card-btn" onclick="addToCart('${watch.id}')">+ DEMANDER</button>`
+            : `<button class="watch-card-btn watch-card-btn-reserve" onclick="openReserveModal('${watch.id}')"><i class="fas fa-clock"></i> RÉSERVER</button>`
           }
         </div>
       </div>
@@ -526,11 +526,11 @@ function renderDetails(watch) {
   const thumbsHTML = currentWatchSlides.map((slide, idx) => {
     if (slide.type === "image") {
       return `<div class="thumb-item active-indicator ${idx === 0 ? "active" : ""}" data-index="${idx}">
-        <img src="${slide.src}" alt="Angle ${idx + 1}">
+        <img src="${slide.src}" alt="Vue ${idx + 1}">
       </div>`;
     } else {
       return `<div class="thumb-item active-indicator" data-index="${idx}">
-        <img src="${slide.poster}" alt="Video" style="filter:brightness(0.4);">
+        <img src="${slide.poster}" alt="Vidéo" style="filter:brightness(0.4);">
         <div class="thumb-video-icon"><i class="fas fa-play"></i></div>
       </div>`;
     }
@@ -538,7 +538,7 @@ function renderDetails(watch) {
 
   detailsContainer.innerHTML = `
     <a href="#/store" class="back-to-store" onclick="stopAutoSlide()">
-      <i class="fas fa-arrow-left"></i> Back to Showroom
+      <i class="fas fa-arrow-left"></i> Retour à la Boutique
     </a>
     <div class="details-grid">
       <div class="details-showcase">
@@ -548,8 +548,8 @@ function renderDetails(watch) {
           <div class="slide-counter">
             <span id="slide-current">1</span> / <span id="slide-total">${currentWatchSlides.length}</span>
           </div>
-          <button class="slide-nav slide-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-          <button class="slide-nav slide-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+          <button class="slide-nav slide-prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+          <button class="slide-nav slide-next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
         </div>
         <div class="media-thumbnails">${thumbsHTML}</div>
       </div>
@@ -565,18 +565,18 @@ function renderDetails(watch) {
         <p class="details-desc">${watch.description}</p>
         <div class="details-actions">
           ${watch.inStock
-            ? `<button class="btn-primary" onclick="addToCart('${watch.id}')">ADD TO SELECTION</button>`
-            : `<button class="btn-primary btn-reserve" onclick="openReserveModal('${watch.id}')"><i class="fas fa-clock"></i> RESERVE</button>`
+            ? `<button class="btn-primary" onclick="addToCart('${watch.id}')">AJOUTER À LA SÉLECTION</button>`
+            : `<button class="btn-primary btn-reserve" onclick="openReserveModal('${watch.id}')"><i class="fas fa-clock"></i> RÉSERVER</button>`
           }
-          <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">REQUEST INQUIRY</button>
+          <button class="btn-outline" onclick="openContactModal('${watch.brand} ${watch.name}')">FAIRE UNE DEMANDE</button>
         </div>
-        <h3 class="specs-title">Technical Specifications</h3>
+        <h3 class="specs-title">Spécifications Techniques</h3>
         <div class="specs-table">
-          <div class="specs-row"><span class="specs-label">Brand</span><span class="specs-value">${watch.brand}</span></div>
-          <div class="specs-row"><span class="specs-label">Quality</span><span class="specs-value">${watch.category}</span></div>
-          <div class="specs-row"><span class="specs-label">Movement</span><span class="specs-value">${watch.movement || "—"}</span></div>
-          <div class="specs-row"><span class="specs-label">Case Material</span><span class="specs-value">${watch.caseMaterial || "—"}</span></div>
-          <div class="specs-row"><span class="specs-label">Box</span><span class="specs-value">${watch.box || "—"}</span></div>
+          <div class="specs-row"><span class="specs-label">Marque</span><span class="specs-value">${watch.brand}</span></div>
+          <div class="specs-row"><span class="specs-label">Qualité</span><span class="specs-value">${watch.category}</span></div>
+          <div class="specs-row"><span class="specs-label">Mouvement</span><span class="specs-value">${watch.movement || "—"}</span></div>
+          <div class="specs-row"><span class="specs-label">Matériau du Boîtier</span><span class="specs-value">${watch.caseMaterial || "—"}</span></div>
+          <div class="specs-row"><span class="specs-label">Boîte</span><span class="specs-value">${watch.box || "—"}</span></div>
         </div>
         </div>
     </div>
@@ -744,7 +744,7 @@ function updateLightboxContent() {
    ========================================================================== */
 window.openContactModal = function(pieceName) {
   const modalText = document.getElementById("modal-subtitle");
-  if (modalText) modalText.textContent = `Inquiry for: ${pieceName}`;
+  if (modalText) modalText.textContent = `Demande pour : ${pieceName}`;
   if (checkoutModal) {
     checkoutModal.dataset.watchName = pieceName;
     checkoutModal.dataset.mode = "inquiry";
@@ -764,7 +764,7 @@ window.openReserveModal = function(watchId) {
   if (!watch) return;
   const pieceName = `${watch.brand} ${watch.name}`;
   const modalText = document.getElementById("modal-subtitle");
-  if (modalText) modalText.textContent = `Reservation for: ${pieceName}`;
+  if (modalText) modalText.textContent = `Réservation pour : ${pieceName}`;
   if (checkoutModal) {
     checkoutModal.dataset.watchName = pieceName;
     checkoutModal.dataset.mode = "reserve";
@@ -787,7 +787,7 @@ window.addToCart = function(watchId) {
   }
   saveCart();
   updateCartUI();
-  showToast(`${watch.brand} ${watch.name} added to selection`);
+  showToast(`${watch.brand} ${watch.name} ajouté à la sélection`);
   if (cartOverlay) cartOverlay.classList.add("open");
 };
 
@@ -821,7 +821,7 @@ function updateCartUI() {
   if (cart.length === 0) {
     cartItemsList.innerHTML = `<div class="cart-empty-msg">
       <i class="fas fa-shopping-bag"></i>
-      <p>No luxury pieces currently selected.</p>
+      <p>Aucune pièce de luxe sélectionnée pour le moment.</p>
     </div>`;
     if (cartSubtotalVal) cartSubtotalVal.textContent = "0 MAD";
     if (cartTotalVal)    cartTotalVal.textContent    = "0 MAD";
@@ -841,7 +841,7 @@ function updateCartUI() {
             <span class="quantity-val">${item.quantity}</span>
             <button class="quantity-btn" onclick="updateQuantity('${item.id}',1)">+</button>
           </div>
-          <button class="remove-item-btn" onclick="removeFromCart('${item.id}')">Remove</button>
+          <button class="remove-item-btn" onclick="removeFromCart('${item.id}')">Supprimer</button>
         </div>
       </div>
     </div>
