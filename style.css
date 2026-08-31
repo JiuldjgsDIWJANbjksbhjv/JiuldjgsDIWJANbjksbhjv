@@ -805,6 +805,8 @@ nav ul li.active a::after {
   margin-bottom: 12px;
   cursor: pointer;
   transition: var(--transition-fast);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .watch-card-title:hover {
@@ -903,6 +905,7 @@ nav ul li.active a::after {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0;
 }
 
 .media-stage {
@@ -1056,6 +1059,7 @@ nav ul li.active a::after {
 .details-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .details-brand {
@@ -1071,6 +1075,8 @@ nav ul li.active a::after {
   font-size: 42px;
   line-height: 1.2;
   margin-bottom: 15px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .details-price {
@@ -1098,6 +1104,8 @@ nav ul li.active a::after {
   color: var(--color-text-secondary);
   line-height: 1.7;
   margin-bottom: 35px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .details-actions {
@@ -1167,6 +1175,7 @@ nav ul li.active a::after {
   padding: 12px 0;
   border-bottom: 1px solid var(--color-border);
   font-size: 13px;
+  min-width: 0;
 }
 
 .specs-label {
@@ -1177,6 +1186,9 @@ nav ul li.active a::after {
 .specs-value {
   color: var(--color-text-primary);
   font-weight: 300;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 /* Cart Drawer */
