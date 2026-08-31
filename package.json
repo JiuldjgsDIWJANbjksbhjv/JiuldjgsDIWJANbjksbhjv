@@ -1,0 +1,19 @@
+{
+  "name": "lhajswisri",
+  "version": "1.0.0",
+  "description": "LhajSwisri - Luxury Watch Store",
+  "main": "app.js",
+  "scripts": {
+    "build": "esbuild analytics.js --bundle --outfile=analytics.bundle.js --format=iife",
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
