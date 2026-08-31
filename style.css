@@ -1642,7 +1642,7 @@ footer {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  z-index: 150;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -2166,16 +2166,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
-   THUNDERBOLT CHAT WIDGET — masqué pendant panier/checkout
-   Le widget flotte en bas à droite (position fixe, très haut z-index côté
-   tiers) et peut se superposer aux boutons du panier/checkout. On le cache
-   simplement via display:none pendant que ces overlays sont ouverts.
+   LOCATION BAR
    ========================================================================== */
-body.hide-chat-widget .gb-fab__wrapper,
-body.hide-chat-widget .tbolt-visitor-chat-fab,
-body.hide-chat-widget [data-zid="tbolt-visitor-chat-widget-fab"] {
-  display: none !important;
-}
 .location-bar {
   background: var(--color-bg-card);
   border-bottom: 1px solid var(--color-border-active);
